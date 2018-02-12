@@ -6,6 +6,11 @@
         <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
         <link rel='stylesheet' href='css/jquery.mobile-1.4.5.min.css'/>
         <link rel='stylesheet' href='css/jquery.mobile.structure-1.4.5.min.css'/>
+        <style>
+            .ui-icon-staryellow:after {
+	            background-image: url("css/images/icons-svg/star-yellow.svg");
+            }
+        </style>
         <script src='js/jquery-1.8.3.min.js'></script>
         <script src='js/jquery.mobile-1.4.5.min.js'></script>
         <script src='js/futbol5.js'></script>
@@ -35,22 +40,6 @@
             </div>
         </div>
 
-<!--
-        <div data-role='page' id='signup' data-title='Signup'>
-            <div data-role='header'>
-                <h2><a href='#login'>Futbol 5</a></h2>
-            </div>
-            <div data-role='content'>
-                <input type='text' id='usuario'/>
-                <input type='password' id='clave'/>
-                <input type='button' id='login'/>
-            </div>
-            <div data-role='footer'>
-                <h4>Pie de pagina</h4>
-            </div>
-        </div>
--->
-
     <!--  LISTADO DE CANCHAS  -->
         <div data-role='page' id='listadoCanchas' data-title='Listado de Canchas' data-add-back-btn='true'>
             <div data-role='header'>
@@ -58,7 +47,15 @@
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>          </div>
             <div data-role='content'>
-                <p>Canchas</p>
+                    <ul data-role="listview" data-split-icon='star'>
+                        <li><a href="#detalleCancha" id='c1'>Meñique</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
+                        <li><a href="#detalleCancha" id='c2'>Estocolmo</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
+                        <li><a href="#detalleCancha" id='c3'>Yatch</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
+                        <li><a href="#detalleCancha" id='c4'>El Galpon</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
+                        <li><a href="#detalleCancha" id='c5'>Varadero</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
+                        <li><a href="#detalleCancha" id='c6'>Racing F5</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
+                        <li><a href="#detalleCancha" id='c7'>Bella Vista F5</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
+                    </ul>
             </div>
             <div data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
@@ -70,7 +67,6 @@
                     </ul>
                 </div>
             </div>
-            <!-- <div data-role='popup'></div> -->
         </div>
 
         <!--  LISTADO DE CANCHAS FAVORITAS  -->
