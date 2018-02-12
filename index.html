@@ -1,0 +1,196 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Futbol5</title>
+        <meta charset='utf-8'>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=no'>
+        <link rel='stylesheet' href='css/jquery.mobile-1.4.5.min.css'/>
+        <link rel='stylesheet' href='css/jquery.mobile.structure-1.4.5.min.css'/>
+        <script src='js/jquery-1.8.3.min.js'></script>
+        <script src='js/jquery.mobile-1.4.5.min.js'></script>
+        <script src='js/futbol5.js'></script>
+    </head>
+    <body>
+
+        <!--  LOGIN  -->
+        <div data-role='page' id='login' data-title='Login'>
+            <div data-role='header'>
+                <h2>Futbol 5</h2>
+            </div>
+            <div data-role='content'>
+                <form>
+                    <div class='ui-hide-label ui-field-contain'>
+                        <label for='usuario'>Usuario:</label>
+                        <input type='text' name='usuario' id='usuario' placeholder='Usuario'/>
+                    </div>
+                    <div class='ui-hide-label ui-field-contain' >
+                        <label for='clave'>Clave:</label>
+                        <input type='password' id='clave' name='clave' placeholder="Contraseña"/>
+                    </div>
+                        <div class='ui-field-contain' >
+                            <input type='submit' id='login' value='Ingresar' onclick='hacerLogin()'/>
+                            <input type='submit' id='signup' value='Nuevo Usuario' data-theme='b' onclick='hacerSignup()'/>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+<!--
+        <div data-role='page' id='signup' data-title='Signup'>
+            <div data-role='header'>
+                <h2><a href='#login'>Futbol 5</a></h2>
+            </div>
+            <div data-role='content'>
+                <input type='text' id='usuario'/>
+                <input type='password' id='clave'/>
+                <input type='button' id='login'/>
+            </div>
+            <div data-role='footer'>
+                <h4>Pie de pagina</h4>
+            </div>
+        </div>
+-->
+
+    <!--  LISTADO DE CANCHAS  -->
+        <div data-role='page' id='listadoCanchas' data-title='Listado de Canchas' data-add-back-btn='true'>
+            <div data-role='header'>
+                <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
+                <h2>Futbol 5</h2>
+                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>          </div>
+            <div data-role='content'>
+                <p>Canchas</p>
+            </div>
+            <div data-role='footer' data-position='fixed'>
+                <div data-role='navbar'>
+                    <ul>
+                        <li><a href='#listadoCanchas' class='active ui-state-persist'>Canchas</a></li>
+                        <li><a href='#listadoFavoritos'>Favoritos</a></li>
+                        <li><a href='#listadoPartidos'>Partidos</a></li>
+                        <li><a href='#nuevoPartido'>Nuevo</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- <div data-role='popup'></div> -->
+        </div>
+
+        <!--  LISTADO DE CANCHAS FAVORITAS  -->
+        <div data-role='page' id='listadoFavoritos' data-title='Listado de Favoritos' data-add-back-btn='true'>
+            <div data-role='header'>
+                <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
+                <h2>Futbol 5</h2>
+                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+            </div>
+            <div data-role='content'>
+                <p>Favoritos</p>
+            </div>
+            <div data-role='footer' data-position='fixed'>
+                    <div data-role='navbar'>
+                        <ul>
+                            <li><a href='#listadoCanchas'>Canchas</a></li>
+                            <li><a href='#listadoFavoritos' class='active ui-state-persist'>Favoritos</a></li>
+                            <li><a href='#listadoPartidos'>Partidos</a></li>
+                            <li><a href='#nuevoPartido'>Nuevo</a></li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+
+        <!--  LISTADO DE PARTIDOS  -->
+        <div data-role='page' id='listadoPartidos' data-title='Listado de Partidos' data-add-back-btn='true'>
+            <div data-role='header'>
+                <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
+                <h2>Futbol 5</h2>
+                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+            </div>
+            <div data-role='content'>
+                <p>Listado de partidos</p>
+            </div>
+            <div data-role='footer' data-position='fixed'>
+                    <div data-role='navbar'>
+                        <ul>
+                            <li><a href='#listadoCanchas'>Canchas</a></li>
+                            <li><a href='#listadoFavoritos'>Favoritos</a></li>
+                            <li><a href='#listadoPartidos' class='active ui-state-persist'>Partidos</a></li>
+                            <li><a href='#nuevoPartido'>Nuevo</a></li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+
+        <!--  DETALLE DE UNA CANCHA  -->
+        <div data-role='page' id='detalleCancha' data-title='Detalle de Cancha' data-add-back-btn='true'>
+            <div data-role='header'>
+                <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
+                <h2>Futbol 5</h2>
+                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+            </div>
+            <div data-role='content'>
+                <p>Detalle Cancha 1</p>
+            </div>
+            <div data-role='footer' data-position='fixed'>
+                    <div data-role='navbar'>
+                        <ul>
+                            <li><a href='#listadoCanchas' class='active ui-state-persist'>Canchas</a></li>
+                            <li><a href='#listadoFavoritos'>Favoritos</a></li>
+                            <li><a href='#listadoPartidos'>Partidos</a></li>
+                            <li><a href='#nuevoPartido'>Nuevo</a></li>
+                        </ul>
+                    </div>
+                </div>
+        </div>
+
+        <!--  DETALLE DE UN PARTIDO  -->
+        <div data-role='page' id='detallePartido' data-title='Detalle de Partido' data-add-back-btn='true'>
+            <div data-role='header'>
+                <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
+                <h2>Futbol 5</h2>
+                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+            </div>
+            <div data-role='content'>
+                <p>Detalle de Partido</p>
+            </div>
+            <div data-role='footer' data-position='fixed'>
+                    <div data-role='navbar'>
+                        <ul>
+                            <li><a href='#listadoCanchas'></a>Canchas</a></li>
+                            <li><a href='#listadoFavoritos'>Favoritos</a></li>
+                            <li><a href='#listadoPartidos' class='active ui-state-persist'>Partidos</a></li>
+                            <li><a href='#nuevoPartido'>Nuevo</a></li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+
+<!--    DIALOGO DE CERRAR SESION  
+        <div data-role='page' id='cerrarSesion' data-title='Cerrar sesion'>
+                <div data-role='content'>
+                    <h2>Cerrar sesion:</h2>
+                    <p>Esta seguro que desea cerrar la sesion?</p>
+                    [button]
+                </div>
+        </div>
+ -->
+        <!--  NUEVO PARTIDO  -->
+        <div data-role='page' id='nuevoPartido' data-title='Nuevo Partido' data-add-back-btn='true'>
+                <div data-role='header'>
+                    <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
+                    <h2>Futbol 5</h2>
+                     <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+                </div>
+                <div data-role='content'>
+                    <p>Nuevo Partido</p>
+                </div>
+                <div data-role='footer' data-position='fixed'>
+                        <div data-role='navbar'>
+                            <ul>
+                                <li><a href='#listadoCanchas'>Canchas</a></li>
+                                <li><a href='#listadoFavoritos'>Favoritos</a></li>
+                                <li><a href='#listadoPartidos'>Partidos</a></li>
+                                <li><a href='#nuevoPartido'  class='active ui-state-persist'>Nuevo</a></li>
+                            </ul>
+                        </div>
+                </div>
+        </div>
+
+    </body>
+</html>
