@@ -51,6 +51,9 @@ function borrarCanchaFavorita(esto){
     }
     guardarFavoritos(favoritos);
 }
+function borrarDeFavoritos(esto){
+    esto.closest('li').remove();
+}
 function guardarFavoritos(array){
     //Funcion que guarda con SQL los favoritos en la base de datos local
 }

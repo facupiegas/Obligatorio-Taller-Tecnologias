@@ -47,15 +47,36 @@
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>          </div>
             <div data-role='content'>
-                    <ul data-role="listview" data-split-icon='star'>
-                        <li><a href="#detalleCancha" id='c1'>Meñique</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
-                        <li><a href="#detalleCancha" id='c2'>Estocolmo</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
-                        <li><a href="#detalleCancha" id='c3'>Yatch</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
-                        <li><a href="#detalleCancha" id='c4'>El Galpon</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
-                        <li><a href="#detalleCancha" id='c5'>Varadero</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
-                        <li><a href="#detalleCancha" id='c6'>Racing F5</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
-                        <li><a href="#detalleCancha" id='c7'>Bella Vista F5</a><a href='#' onclick='guardarCanchaFavorita($(this))'></a></li>
-                    </ul>
+                <ul data-role="listview" data-split-icon='star'>
+                    <li>
+                        <a href="#detalleCancha" id='c1'>Meñique</a>
+                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c2'>Estocolmo</a>
+                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c3'>Yatch</a>
+                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c4'>El Galpon</a>
+                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c5'>Varadero</a>
+                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c6'>Racing F5</a>
+                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c7'>Bella Vista F5</a>
+                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
+                    </li>
+                </ul>
             </div>
             <div data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
@@ -77,7 +98,35 @@
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
             </div>
             <div data-role='content'>
-                <p>Favoritos</p>
+                <ul data-role="listview" data-split-icon='star'>
+                    <li>
+                        <a href="#detalleCancha" id='c1'>Meñique</a>
+                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c2'>Estocolmo</a>
+                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a></li>
+                    <li>
+                        <a href="#detalleCancha" id='c3'>Yatch</a>
+                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c4'>El Galpon</a>
+                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c5'>Varadero</a>
+                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c6'>Racing F5</a>
+                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
+                    </li>
+                    <li>
+                        <a href="#detalleCancha" id='c7'>Bella Vista F5</a>
+                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
+                    </li>
+                </ul>
             </div>
             <div data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
@@ -157,15 +206,6 @@
             </div>
         </div>
 
-<!--    DIALOGO DE CERRAR SESION  
-        <div data-role='page' id='cerrarSesion' data-title='Cerrar sesion'>
-                <div data-role='content'>
-                    <h2>Cerrar sesion:</h2>
-                    <p>Esta seguro que desea cerrar la sesion?</p>
-                    [button]
-                </div>
-        </div>
- -->
         <!--  NUEVO PARTIDO  -->
         <div data-role='page' id='nuevoPartido' data-title='Nuevo Partido' data-add-back-btn='true'>
                 <div data-role='header'>
