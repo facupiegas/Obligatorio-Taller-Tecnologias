@@ -68,6 +68,8 @@ function hacerLogout(){
 }
 //Al cargar las paginas siempre debo checkear que estoy logeado y sino redirigirme al login
     //evento beforepagechange puede checkear si estoy logeado.
+
+//zz    
 function traerCanchasyPartidos(){
 
 }
