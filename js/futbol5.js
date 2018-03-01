@@ -68,10 +68,35 @@ function hacerLogout(){
 }
 //Al cargar las paginas siempre debo checkear que estoy logeado y sino redirigirme al login
     //evento beforepagechange puede checkear si estoy logeado.
-
-//zz    
-function traerCanchasyPartidos(){
-
+function cargarListaCanchas(){
+  if(idUsuario != -1){
+      $.ajax({
+          type: "GET",
+          dataType: "json",
+          url: "http://quierojugar.tribus.com.uy/getCanchas",
+          data:'',
+          success: function(retorno){
+              var lista = $("#listadoCanchas #canchas");
+              lista.empty();
+              var largo = retorno.canchas.length;
+              var i;
+              for(i=0; i<largo; i++){
+                  lista.append(
+                      "<li><a href='#detalleCancha' id='" + retorno.canchas[i].nombre + "'>" + retorno.canchas[i].nombre + "</a>"
+                      + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' onclick='guardarCanchaFavorita($(this))'></a></li>"
+                  );
+              }
+              lista.listview('refresh');
+              marcarFavoritos();
+              $.mobile.navigate('#listadoCanchas');
+          },
+          error:function(retorno){
+              $('#login #mensaje').html("<p>"+ retorno.mensaje +"</p>")
+          }
+      })
+  } else {
+      $.mobile.navigate('#login');
+  }
 }
 function guardarCanchaFavorita(esto){
     var id = esto.prev().attr('id');
