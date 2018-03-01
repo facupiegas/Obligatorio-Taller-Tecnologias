@@ -10,19 +10,12 @@
             .ui-icon-staryellow:after {
 	            background-image: url("css/images/icons-svg/star-yellow.svg");
             }
-            .ui-icon-footballwhite:after {
-	            background-image: url("css/images/icons-svg/football-white.svg");
-            }
-            .ui-icon-fieldwhite:after {
-	            background-image: url("css/images/icons-svg/field-white2.svg");
-            }
         </style>
-        <script src='js/jquery-1.8.3.min.js'></script>
-        <script src='js/jquery.mobile-1.4.5.min.js'></script>
+        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+    		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
         <script src='js/futbol5.js'></script>
     </head>
     <body>
-
         <!--  LOGIN  -->
         <div data-role='page' id='login' data-title='Login' data-transition='slideup'>
             <div data-role='header'>
@@ -32,11 +25,11 @@
                 <form id='iniciar sesion'>
                     <div class='ui-hide-label ui-field-contain'>
                         <label for='usuario'>Usuario:</label>
-                        <input type='text' name='usuario' id='usuario' placeholder='Usuario'/>
+                        <input type='text' id='usuarioLogin' name='usuario' placeholder='Usuario'/>
                     </div>
                     <div class='ui-hide-label ui-field-contain' >
                         <label for='clave'>Clave:</label>
-                        <input type='password' id='clave' name='clave' placeholder="Contraseña"/>
+                        <input type='password' id='claveLogin' name='clave' placeholder="Contraseña"/>
                     </div>
                         <div class='ui-field-contain' >
                             <input type='button' id='login' value='Ingresar' onclick='hacerLogin()'/>
@@ -45,8 +38,10 @@
                 </form>
                 <div id='mensaje'></div>
             </div>
+            <div data-role='content'>
+                <p id='messageLogin'></p>
+            </div>
         </div>
-
         <!--  SIGNUP  -->
         <div data-role='page' id='signup' data-title='Signup' data-add-back-btn='true'data-transition='slideup'>
             <div data-role='header'>
@@ -125,7 +120,6 @@
                 </div>
             </div>
         </div>
-
         <!--  LISTADO DE CANCHAS FAVORITAS  -->
         <div data-role='page' id='listadoFavoritos' data-title='Listado de Favoritos' data-add-back-btn='true' data-transition='slideup'>
             <div data-role='header'>
@@ -175,7 +169,6 @@
                     </div>
                 </div>
         </div>
-
         <!--  LISTADO DE PARTIDOS  -->
         <div data-role='page' id='listadoPartidos' data-title='Listado de Partidos' data-add-back-btn='true' data-transition='slideup'>
             <div data-role='header'>
@@ -197,7 +190,6 @@
                     </div>
                 </div>
         </div>
-
         <!--  DETALLE DE UNA CANCHA  -->
         <div data-role='page' id='detalleCancha' data-title='Detalle de Cancha' data-add-back-btn='true' data-transition='slideup'>
             <div data-role='header'>
@@ -219,7 +211,6 @@
                     </div>
                 </div>
         </div>
-
         <!--  DETALLE DE UN PARTIDO  -->
         <div data-role='page' id='detallePartido' data-title='Detalle de Partido' data-add-back-btn='true' data-transition='slideup'>
             <div data-role='header'>
@@ -241,7 +232,7 @@
                     </div>
             </div>
         </div>
-
+          
         <!--  NUEVO PARTIDO  -->
         <div data-role='page' id='nuevoPartido' data-title='Nuevo Partido' data-add-back-btn='true' data-transition='slideup'>
                 <div data-role='header'>
@@ -285,6 +276,5 @@
                         </div>
                 </div>
         </div>
-
     </body>
 </html>
