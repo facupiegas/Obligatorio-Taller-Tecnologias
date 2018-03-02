@@ -205,7 +205,7 @@ function cargarPaginaNuevoPartido(idCancha){
 function crearPartido(){
     var nombreCancha = $('#selectCancha').val();
     var nombrePartido = $('#nombrePartido').val();
-    var inscripcion = $('#inscribirseSlider').val();
+    var inscripcion = $('#inscribirseSlider option[selected="selected"]').val();
     if(nombreCancha != '' && nombrePartido != '' && inscripcion != ''){
         ajaxCrearPartido(nombreCancha, nombrePartido, inscripcion);
     } else{
@@ -220,7 +220,7 @@ function ajaxCrearPartido(cancha, nombre, siONo){
         success: function(retorno){
             if(retorno.retorno == 'OK'){
                 var ret = retorno
-                if(siONo == "si"){
+                if(siONo == "true"){
                     $.when(inscribirsePartido(idUsuario, ret.idPartido)).then(cargarPaginaDetallePartido(ret.idPartido));
                 } else {
                     cargarPaginaDetallePartido(ret.idPartido);
