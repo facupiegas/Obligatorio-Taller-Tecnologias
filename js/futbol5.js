@@ -1,7 +1,7 @@
 var favoritos = [];
 
 
-// login & Signup, Logout
+// login, Signup, Logout
 var idUsuario = -1;
 function hacerLogin(){
     var usuario = $('#login #usuario').val();
@@ -53,9 +53,7 @@ function hacerLogout(){
     $.mobile.navigate('#login');
 }
 
-
-//Listado canchas
-
+//Canchas
 function cargarPaginaListadoCanchas(){
     if(idUsuario != -1){
         $.ajax({
@@ -70,14 +68,12 @@ function cargarPaginaListadoCanchas(){
                 var i;
                 for(i=0; i<largo; i++){
                     lista.append(
-                        "<li><a href='#detalleCancha' id='" + retorno.canchas[i].nombre + "'>" + retorno.canchas[i].nombre + "</a>"
+                        "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;)'>" + retorno.canchas[i].nombre + "</a>"
                         + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' onclick='guardarCanchaFavorita($(this))'></a></li>"
                     );
                 }
                 marcarFavoritos();
                 lista.listview('refresh',$.mobile.navigate('#listadoCanchas'));
-
-                ;
             },
             error:function(retorno){
                 $('#login #mensaje').html("<p>"+ retorno.mensaje +"</p>")
@@ -87,12 +83,37 @@ function cargarPaginaListadoCanchas(){
         $.mobile.navigate('#login');
     }
 }
+function cargarDetalleCancha(cancha){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
+        success: function(retorno){
+            $('#divInfoCancha h2').html(retorno.cancha.nombre);
+            $('#infoDireccion').html(retorno.cancha.direccion);
+            $('#infoTel').html(retorno.cancha.telefono);
 
+            // var lista = $('#listInfoCancha').listview();
+            // lista.listview().empty();
+            // lista.html(
+            //     '<li data-role="list-divider">Dirección</li>' +
+            //     '<li>' + retorno.cancha.direccion + '</li>' +
+            //     '<li data-role="list-divider">Teléfono</li>' + 
+            //     '<li>' + retorno.cancha.telefono + '</li>'
+            // );
+            // tengo que refrescar lista o basta con html ?
+            // lista.listview('refresh',
+            $.mobile.navigate('#detalleCancha');
+        },
+        error:function(retorno){
+            
+        }
+    })  
+}
 
 //Favoritos
 function marcarFavoritos(){
 }
-
 function guardarCanchaFavorita(esto){
     var id = esto.data('cancha');
     if(favoritos.indexOf(id) == -1){
@@ -168,8 +189,6 @@ function cargarPaginaDetallePartido(partido){
         }
     });
 }
-
-
 
 //Crear partido
 function cargarPaginaNuevoPartido(idCancha){
