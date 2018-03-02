@@ -90,8 +90,8 @@
             <div data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
-                        <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                        <li><a href='#'>Favoritos</a></li>
+                        <li><a href='#' class='active ui-state-persist'>Canchas</a></li>
+                        <li><a href='#' onclick='cargarPaginaFavoritos()'>Favoritos</a></li>
                         <!-- <li><a href='#listadoPartidos'>Partidos</a></li> -->
                         <li><a href='#' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                     </ul>
@@ -222,8 +222,8 @@
                             <div class='ui-field-contain'>
                                 <label for='inscribirseSlider'>Inscribirse:</label>
                                 <select id="inscribirseSlider" data-role="slider">
-                                    <option value="false">no</option>
-                                    <option value="true" selected="selected">si</option>
+                                    <option value="no">no</option>
+                                    <option value="si" selected="selected">si</option>
                                 </select>
                             </div>
                             <div class='ui-field-contain'>
