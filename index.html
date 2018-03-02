@@ -18,6 +18,7 @@
             }
         </style>
         <script src='js/jquery-1.8.3.min.js'></script>
+
         <script src='js/jquery.mobile-1.4.5.min.js'></script>
         <script src='js/futbol5.js'></script>
     </head>
@@ -84,43 +85,16 @@
             </div>
             <div data-role='content'>
                 <ul id='canchas' data-role="listview" data-split-icon='star'>
-                    <li>
-                        <a href="#detalleCancha" id='c1'>Meñique</a>
-                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c2'>Estocolmo</a>
-                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c3'>Yatch</a>
-                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c4'>El Galpon</a>
-                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c5'>Varadero</a>
-                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c6'>Racing F5</a>
-                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c7'>Bella Vista F5</a>
-                        <a href='#' onclick='guardarCanchaFavorita($(this))'></a>
-                    </li>
+                    
                 </ul>
             </div>
             <div data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
-                        <li><a href='#listadoPartidos' class='active ui-state-persist'>Canchas</a></li>
+                        <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
                         <li><a href='#listadoFavoritos'>Favoritos</a></li>
-                        <li><a href='#listadoPartidos'>Partidos</a></li>
-                        <li><a href='#nuevoPartido'>Nuevo</a></li>
+                        <!-- <li><a href='#listadoPartidos'>Partidos</a></li> -->
+                        <li><a href='#nuevoPartido' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                     </ul>
                 </div>
             </div>
@@ -135,41 +109,15 @@
             </div>
             <div data-role='content'>
                 <ul data-role="listview" data-split-icon='star'>
-                    <li>
-                        <a href="#detalleCancha" id='c1'>Meñique</a>
-                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c2'>Estocolmo</a>
-                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a></li>
-                    <li>
-                        <a href="#detalleCancha" id='c3'>Yatch</a>
-                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c4'>El Galpon</a>
-                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c5'>Varadero</a>
-                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c6'>Racing F5</a>
-                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
-                    </li>
-                    <li>
-                        <a href="#detalleCancha" id='c7'>Bella Vista F5</a>
-                        <a href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)), borrarDeFavoritos($(this))'></a>
-                    </li>
+                    
                 </ul>
             </div>
             <div data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
                         <ul>
-                            <li><a href='#listadoCanchas' data-transition='slideup'>Canchas</a></li>
+                            <li><a href='#listadoCanchas' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
                             <li><a href='#listadoFavoritos' class='active ui-state-persist' data-transition='slideup'>Favoritos</a></li>
-                            <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li>
+                            <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
                             <li><a href='#nuevoPartido' data-transition='slideup'>Nuevo</a></li>
                         </ul>
                     </div>
@@ -177,6 +125,7 @@
         </div>
 
         <!--  LISTADO DE PARTIDOS  -->
+        <!--   
         <div data-role='page' id='listadoPartidos' data-title='Listado de Partidos' data-add-back-btn='true' data-transition='slideup'>
             <div data-role='header'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
@@ -189,7 +138,7 @@
             <div data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
                         <ul>
-                            <li><a href='#listadoCanchas' data-transition='slideup'>Canchas</a></li>
+                            <li><a href='#listadoCanchas' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
                             <li><a href='#listadoFavoritos' data-transition='slideup'>Favoritos</a></li>
                             <li><a href='#listadoPartidos' class='active ui-state-persist' data-transition='slideup'>Partidos</a></li>
                             <li><a href='#nuevoPartido' data-transition='slideup'>Nuevo</a></li>
@@ -197,7 +146,7 @@
                     </div>
                 </div>
         </div>
-
+    -->
         <!--  DETALLE DE UNA CANCHA  -->
         <div data-role='page' id='detalleCancha' data-title='Detalle de Cancha' data-add-back-btn='true' data-transition='slideup'>
             <div data-role='header'>
@@ -211,9 +160,9 @@
             <div data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
                         <ul>
-                            <li><a href='#listadoCanchas' class='active ui-state-persist' data-transition='slideup'>Canchas</a></li>
+                            <li><a href='#listadoCanchas' class='active ui-state-persist' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
                             <li><a href='#listadoFavoritos' data-transition='slideup'>Favoritos</a></li>
-                            <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li>
+                            <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
                             <li><a href='#nuevoPartido' data-transition='slideup'>Nuevo</a></li>
                         </ul>
                     </div>
@@ -227,16 +176,25 @@
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
             </div>
-            <div data-role='content'>
-                <p>Detalle de Partido</p>
+            <div data-role='content' > 
+                    <div id='partidoInfoCollapsible' data-role="collapsible" data-inset="false" data-collapsed="false">
+                        <h3>Info</h3>
+                        <div id='info'></div>
+                    </div>
+                    <div id='partidoJugadoresCollapsible'data-role="collapsible" data-inset="false" data-collapsed="false">
+                        <h3>Jugadores</h3>
+                        <ul id='listaJugadores' data-role="listview">
+                        
+                        </ul>
+                    </div>
             </div>
             <div data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
                         <ul>
-                            <li><a href='#listadoCanchas' data-transition='slideup'></a>Canchas</a></li>
-                            <li><a href='#listadoFavoritos' data-transition='slideup'>Favoritos</a></li>
-                            <li><a href='#listadoPartidos' class='active ui-state-persist' data-transition='slideup'>Partidos</a></li>
-                            <li><a href='#nuevoPartido' data-transition='slideup'>Nuevo</a></li>
+                                <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
+                                <li><a href='#' onclick='traerFavoritos()'>Favoritos</a></li>
+                                <!-- <li><a href='#listadoPartidos'>Partidos</a></li> -->
+                                <li><a href='#' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                         </ul>
                     </div>
             </div>
@@ -250,41 +208,41 @@
                      <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
                 </div>
                 <div data-role='content'>
-                    <p>Nuevo Partido</p>
+                    <div data-role='content'>
+                        <form id='nuevoPartido'>
+                            <div class='ui-field-contain'>
+                                <label for="selectCancha" class="select">Cancha:</label>
+                                <select name="selectCancha" data-native-menu="false" id="selectCancha">
+                                    <option value="standard">Standard: 7 day</option>
+                                </select>
+                            </div>
+                            <div class='ui-hide-label ui-field-contain'>
+                                    <label for='nombrePartido'>Nombre Partido:</label>
+                                    <input type='text' name='nombrePartido' id='nombrePartido' placeholder='Nombre del partido'/>
+                            </div>
+                            <div class='ui-field-contain'>
+                                <label for='inscribirseSlider'>Inscribirse:</label>
+                                <select id="inscribirseSlider" data-role="slider">
+                                    <option value="true">si</option>
+                                    <option value="false">no</option>
+                                </select>
+                            </div>
+                            <div class='ui-field-contain'>
+                                <input type='button' id='btnCrearPartido' value='Crear Partido' onclick='crearPartido()'/>
+                            </div>
+                        </form>
+                    <div id='mensaje'></div>
                 </div>
                 <div data-role='footer' data-position='fixed'>
                         <div data-role='navbar'>
                             <ul>
-                                <li><a href='#listadoCanchas' data-transition='slideup'>Canchas</a></li>
+                                <li><a href='#listadoCanchas' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
                                 <li><a href='#listadoFavoritos' data-transition='slideup'>Favoritos</a></li>
-                                <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li>
+                                <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
                                 <li><a href='#nuevoPartido'  class='active ui-state-persist' data-transition='slideup'>Nuevo</a></li>
                             </ul>
                         </div>
                 </div>
         </div>
-
-         <!--  BUSCAR PARTIDO  -->
-         <div data-role='page' id='buscarPartido' data-title='Nuevo Partido' data-add-back-btn='true' >
-                <div data-role='header'>
-                    <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
-                    <h2>Futbol 5</h2>
-                     <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
-                </div>
-                <div data-role='content'>
-                    <p>Buscar Partido</p>
-                </div>
-                <div data-role='footer' data-position='fixed'>
-                        <div data-role='navbar'>
-                            <ul>
-                                <li><a href='#listadoCanchas' data-transition='slideup'>Canchas</a></li>
-                                <li><a href='#listadoFavoritos' data-transition='slideup'>Favoritos</a></li>
-                                <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li>
-                                <li><a href='#nuevoPartido' data-transition='slideup'>Nuevo</a></li>
-                            </ul>
-                        </div>
-                </div>
-        </div>
-
     </body>
 </html>
