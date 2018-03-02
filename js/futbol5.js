@@ -133,17 +133,17 @@ function cargarPaginaDetallePartido(partido){
         success: function(retorno){
             if(retorno.retorno = 'OK'){
                 if(retorno.partido.cantidad_jugadores == 10) {
-                    $('#detallePartido #info').append(
+                    $('#detallePartido #info').html(
                         "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>"
                         + "<p><b>Cancha:</b> " + retorno.partido.cancha + "</p>"
                         + "<p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>"
                         );
                 } else {
-                    $('#detallePartido #info').append(
+                    $('#detallePartido #info').html(
                         "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>"
                         + "<p><b>Cancha:</b> " + retorno.partido.cancha + "</p>"
                         + "<p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>"
-                        + "<a id='jugar' href='#' data-role='button' data-partido='"+retorno.partido.id+"' onclick='inscribirsePartido(), cargarPaginaDetallePartido($(this).data(&quot;partido&quot;))'>Jugar</a>"
+                        + "<input type='button' id='jugar' value='Jugar' data-role='button' data-partido='"+retorno.partido.id+"' onclick='inscribirsePartido("+idUsuario+",$(this).data(&quot;partido&quot;)), cargarPaginaDetallePartido($(this).data(&quot;partido&quot;))'>"
                     );
                     $('#jugar').button();
                 }
@@ -152,7 +152,9 @@ function cargarPaginaDetallePartido(partido){
                 var largo =  jugadoresPartido.length;
                 var i;
                 for(i=0; i<largo; i++){
-                    listaJugadores.append("<li>" + jugadoresPartido[i] + "</li>");
+                    if(jugadoresPartido[i] != ''){
+                        listaJugadores.append("<li>" + jugadoresPartido[i] + "</li>");
+                    }
                 }
                 listaJugadores.listview('refresh', $.mobile.navigate('#detallePartido'));
             } else {
@@ -188,7 +190,7 @@ function cargarPaginaNuevoPartido(idCancha){
                     if(idCancha != null){
                         $("#nuevoPartido #selectCancha option[value='"+idCancha+"']").attr("selected","selected");
                     }
-                    select.selectmenu("refresh", $.mobile.navigate('#crearPartido'))
+                    select.selectmenu().selectmenu("refresh", $.mobile.navigate('#nuevoPartido'))
                 } else {
                     if(retorno.retorno == 'ERROR') {
                         $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")
@@ -238,9 +240,12 @@ function inscribirsePartido(usuario, partido){
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "http://quierojugar.tribus.com.uy/inscribirseAPartido?idUsuario="+usuario+"&nombrePartido="+idPartido,
+        url: "http://quierojugar.tribus.com.uy/inscribirseAPartido?idUsuario="+usuario+"&idPartido="+partido,
         data:'',            
         success: function(retorno){
+            if(retorno.retorno == 'OK'){
+                alert(retorno.retorno);
+            }
             if(retorno.retorno == 'ERROR') {
                $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")
             }

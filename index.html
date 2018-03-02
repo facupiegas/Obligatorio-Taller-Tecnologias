@@ -91,9 +91,9 @@
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                        <li><a href='#listadoFavoritos'>Favoritos</a></li>
+                        <li><a href='#'>Favoritos</a></li>
                         <!-- <li><a href='#listadoPartidos'>Partidos</a></li> -->
-                        <li><a href='#nuevoPartido' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
+                        <li><a href='#' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                     </ul>
                 </div>
             </div>
@@ -114,10 +114,10 @@
             <div data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
                         <ul>
-                            <li><a href='#listadoCanchas' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                            <li><a href='#listadoFavoritos' class='active ui-state-persist' data-transition='slideup'>Favoritos</a></li>
+                            <li><a href='#' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
+                            <li><a href='#' class='active ui-state-persist' data-transition='slideup'>Favoritos</a></li>
                             <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
-                            <li><a href='#nuevoPartido' data-transition='slideup'>Nuevo</a></li>
+                            <li><a href='#' data-transition='slideup' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                         </ul>
                     </div>
                 </div>
@@ -159,10 +159,10 @@
             <div data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
                         <ul>
-                            <li><a href='#listadoCanchas' class='active ui-state-persist' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                            <li><a href='#listadoFavoritos' data-transition='slideup'>Favoritos</a></li>
+                            <li><a href='#' class='active ui-state-persist' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
+                            <li><a href='#' data-transition='slideup'>Favoritos</a></li>
                             <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
-                            <li><a href='#nuevoPartido' data-transition='slideup'>Nuevo</a></li>
+                            <li><a href='#' data-transition='slideup' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                         </ul>
                     </div>
                 </div>
@@ -222,8 +222,8 @@
                             <div class='ui-field-contain'>
                                 <label for='inscribirseSlider'>Inscribirse:</label>
                                 <select id="inscribirseSlider" data-role="slider">
-                                    <option value="true">si</option>
                                     <option value="false">no</option>
+                                    <option value="true" selected="selected">si</option>
                                 </select>
                             </div>
                             <div class='ui-field-contain'>
@@ -235,10 +235,10 @@
                 <div data-role='footer' data-position='fixed'>
                         <div data-role='navbar'>
                             <ul>
-                                <li><a href='#listadoCanchas' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                                <li><a href='#listadoFavoritos' data-transition='slideup'>Favoritos</a></li>
+                                <li><a href='#' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
+                                <li><a href='#' data-transition='slideup'>Favoritos</a></li>
                                 <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
-                                <li><a href='#nuevoPartido'  class='active ui-state-persist' data-transition='slideup'>Nuevo</a></li>
+                                <li><a href='#'  class='active ui-state-persist' data-transition='slideup'>Nuevo</a></li>
                             </ul>
                         </div>
                 </div>
