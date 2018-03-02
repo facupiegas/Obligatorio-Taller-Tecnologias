@@ -216,15 +216,15 @@ function ajaxCrearPartido(cancha, nombre, siONo){
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "http://quierojugar.tribus.com.uy/crearPartido?nombreCancha="+cancha+"&nombrePartido="+nombre+"&idUsuario="+idUsuario,
-        data:'',            
+        url: "http://quierojugar.tribus.com.uy/crearPartido?nombreCancha="+cancha+"&nombrePartido="+nombre+"&idUsuario="+idUsuario,          
         success: function(retorno){
             if(retorno.retorno == 'OK'){
                 var ret = retorno
-                if(siONo == true){
-                    inscribirsePartido(idUsuario, ret.idPartido);
+                if(siONo == "si"){
+                    $.when(inscribirsePartido(idUsuario, ret.idPartido)).then(cargarPaginaDetallePartido(ret.idPartido));
+                } else {
+                    cargarPaginaDetallePartido(ret.idPartido);
                 }
-                cargarPaginaDetallePartido(ret.idPartido);
             } else {
                 if(retorno.retorno == 'ERROR') {
                     $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")
@@ -240,11 +240,10 @@ function inscribirsePartido(usuario, partido){
     $.ajax({
         type: "POST",
         dataType: "json",
-        url: "http://quierojugar.tribus.com.uy/inscribirseAPartido?idUsuario="+usuario+"&idPartido="+partido,
-        data:'',            
+        url: "http://quierojugar.tribus.com.uy/inscribirseAPartido?idUsuario="+usuario+"&idPartido="+partido,  
         success: function(retorno){
             if(retorno.retorno == 'OK'){
-                alert(retorno.retorno);
+                return;
             }
             if(retorno.retorno == 'ERROR') {
                $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")
