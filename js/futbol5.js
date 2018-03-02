@@ -11,7 +11,7 @@ function hacerLogin(){
             type: "GET",
             dataType: "json",
             url: "http://quierojugar.tribus.com.uy/login?user=" + usuario + "&password=" + pass,
-            data:'',            
+            data:'',
             success: function(retorno){
                 idUsuario = retorno.id_usuario;
                 cargarPaginaListadoCanchas();
@@ -33,7 +33,7 @@ function hacerSignup(){
             type: "POST",
             dataType: "json",
             url: "http://quierojugar.tribus.com.uy/registrar?user=" + usuario + "&password=" + pass + '&nombre='+ nombre,
-            data:'',            
+            data:'',
             success: function(retorno){
                 idUsuario = retorno.id_usuario;
                 cargarPaginaListadoCanchas();
@@ -62,7 +62,7 @@ function cargarPaginaListadoCanchas(){
             type: "GET",
             dataType: "json",
             url: "http://quierojugar.tribus.com.uy/getCanchas",
-            data:'',            
+            data:'',
             success: function(retorno){
                 var lista = $("#listadoCanchas #canchas").listview();
                 lista.empty();
@@ -123,7 +123,6 @@ function guardarFavoritos(array){
 function traerCanchasFavoritas(){
     //Funcion que trae los favoritos de la base de datos local
 }
-
 
 //Detalle Partido
 function cargarPaginaDetallePartido(partido){
@@ -251,4 +250,3 @@ function inscribirsePartido(usuario, partido){
         }
     })
 }
-
