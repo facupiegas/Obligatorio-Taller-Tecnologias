@@ -9,7 +9,8 @@
             <script src="js/jquery-1.8.3.min.js"></script>
             <script src='js/jquery.mobile-1.4.5.min.js'></script>
             <script src="js/gmaps.js"></script>
-            <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9MQ53H3mkO0WTMp1fmXGIVMNt8fuvSYk&libraries=places&callback=initMap"></script>  
+            <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9MQ53H3mkO0WTMp1fmXGIVMNt8fuvSYk&libraries=places&callback=initMap"></script>
+            <script src="js/imageflip.mini.js"></script>
             <script src='js/futbol5.js'></script>
             <style>
                 .ui-icon-staryellow:after {
@@ -24,7 +25,14 @@
                 #map {
                     width: 100%;
                     height: 150px;
-                    }
+                }
+                .ui-grid-b {
+                    height: 80px;
+                }
+                .ui-grid-b  img{
+                    height: 100%;
+                    width: 100%;
+                }
             </style>
         </head>
     <body>  
@@ -103,6 +111,7 @@
             </div>
         </div>
 
+
         <!--//////////////////////////////////////////////////////  LISTADO DE CANCHAS FAVORITAS  //////////////////////////////////////////////////////!-->
         <div data-role='page' id='listadoFavoritos' data-title='Listado de Favoritos' data-add-back-btn='true' data-transition='slideup'>
             <div data-role='header'>
@@ -136,7 +145,15 @@
             </div>
             <div data-role='content' id='divInfoCancha'>
                 <h2></h2>
-                <div id="fotosCancha">en este div van las fotos de la cancha</div>
+                <input id='nuevoPartidoCancha' type="button" data-inline="true" value="Nuevo Partido">
+                    <div id='fotosCancha' class="ui-grid-b">
+                        <div class="ui-block-a">                            
+                        </div>
+                        <div class="ui-block-b">                         
+                        </div>
+                        <div class="ui-block-c">           
+                        </div>
+                    </div>
                 <ul data-role="listview" id='#listInfoCancha' data-inset="true" data-divider-theme="a">
                     <li data-role="list-divider">Dirección</li>
                     <li id="infoDireccion"></li>
@@ -151,14 +168,6 @@
                     <div id="divPartidosCancha" data-role="collapsible">
                         <h3>Partidos</h3>
                         <ul id="lstPartidos" data-role="listview"  data-filter="true" data-filter-placeholder="Buscar Partido">
-                    <!--         <li><a>Partido 1</a></li>
-                            <li><a>Partido 2</a></li>
-                            <li><a>Partido 3</a></li>
-                            <li><a>Partido 4</a></li>
-                            <li><a>Partido 5</a></li>
-                            <li><a>Partido 6</a></li>
-                            <li><a>Partido 7</a></li>
-                            <li><a>Partido 8</a></li> -->
                         </ul>
                     </div>     
                 </div>  
