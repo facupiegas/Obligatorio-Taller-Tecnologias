@@ -113,21 +113,20 @@ function cargarDetalleCancha(cancha){
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
-            $.when(function (){
-                $('#divInfoCancha h2').html(retorno.cancha.nombre);
-                $('#infoDireccion').html(retorno.cancha.direccion);
-                $('#infoTel').html(retorno.cancha.telefono);
-                var plat = retorno.cancha.ubicacion.latitud;
-                var plong = retorno.cancha.ubicacion.longitud;
-                gMap = new google.maps.Map(document.getElementById('map')); 
-                gMap.setZoom(14); // zoom mapa
-                gMap.setCenter(new google.maps.LatLng(plat, plong));
-                var marker = new google.maps.Marker({
-                    position: new google.maps.LatLng(plat, plong),
-                    map: gMap,
-                });
-                //ajaxTraerPartidos(retorno.cancha.nombre);//cargo los partidos de ka cancha en la lista
-            }).$.mobile.navigate('#detalleCancha'); 
+            $('#divInfoCancha h2').html(retorno.cancha.nombre);
+            $('#infoDireccion').html(retorno.cancha.direccion);
+            $('#infoTel').html(retorno.cancha.telefono);
+            var plat = retorno.cancha.ubicacion.latitud;
+            var plong = retorno.cancha.ubicacion.longitud;
+            gMap = new google.maps.Map(document.getElementById('map')); 
+            gMap.setZoom(14); // zoom mapa
+            gMap.setCenter(new google.maps.LatLng(plat, plong));
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(plat, plong),
+                map: gMap,
+            });
+            ajaxTraerPartidos(retorno.cancha.nombre);//cargo los partidos de ka cancha en la lista
+            $.mobile.navigate('#detalleCancha'); 
         },
         error:function(retorno){
         }
@@ -149,15 +148,18 @@ function ajaxTraerPartidos(pNombCancha){
     $.ajax({
         type: "GET",
         dataType: "json",
-        url: "http://quierojugar.tribus.com.uy/getPartido?idPartidos=" + pNombCancha,
+        url: "http://quierojugar.tribus.com.uy/getPartidos?nombreCancha=" + pNombCancha,
         success: function(retorno){
-            var listaPartidos = $("#lstPartidos").listview();
-            listaPartidos.empty();
-            var largo =  partidos.length;
-            var i;
-            for(i=0; i<largo; i++){               
-                    listaPartidos.append("<li>" + retorno.partidos[i].nombre + "</li>");              
-            }
+            if(retorno.retorno == 'OK'){
+                var listaPartidos = $("#lstPartidos").listview();
+                listaPartidos.empty();
+                var largo = retorno.partidos.length;
+                var i;
+                for(i=0; i<largo; i++){               
+                        listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+")'>" + retorno.partidos[i].nombre + "<a/></li>");              
+                }
+                listaPartidos.listview('refresh');
+            }  
         },
         error: function(err){
             //$('#detalleCancha #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
