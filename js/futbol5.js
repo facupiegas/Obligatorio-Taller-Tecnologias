@@ -107,13 +107,20 @@ function cargarPaginaListadoCanchas(){
     }
 }
 function cargarDetalleCancha(cancha){
-    
     $.ajax({
         type: "GET",
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
             $('#divInfoCancha h2').html(retorno.cancha.nombre);
+            $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'")');
+          
+            //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
+            $('#fotosCancha .ui-block-a ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'>");
+            $('#fotosCancha .ui-block-b ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'>");
+            $('#fotosCancha .ui-block-c ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'>");
+          
+          
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
             var plat = retorno.cancha.ubicacion.latitud;
@@ -144,6 +151,7 @@ function initMap() {
     });
 }
 
+
 function ajaxTraerPartidos(pNombCancha){
     $.ajax({
         type: "GET",
@@ -166,7 +174,6 @@ function ajaxTraerPartidos(pNombCancha){
         }
     });
 }
-
 
 ////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
 function cargarPaginaFavoritos(transEffect){
@@ -212,53 +219,30 @@ function borrarCanchaFavorita(esto){
 function borrarDeFavoritos(esto){
     esto.closest('li').remove();
 }
-
 function selectFavoritos(usu){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5)
     db.transaction(function (tx) {
         tx.executeSql("SELECT cancha FROM favoritos WHERE usuario=?",[usu],
         function(tx,result){
-            console.log(result);
             favoritos = [];
             var i, largo = result.rows.length;
             for(i=0; i< largo; i++){
-                console.log(result.rows[i].cancha);
                 favoritos.push(result.rows.item(i).cancha);
             }
         }, function (error) {
-            console.log(error);
         });
     });
 }
 function insertFavorito(usu, cha){
     db.transaction(function(tx){
-        tx.executeSql("INSERT INTO favoritos(usuario,cancha) VALUES (?,?)",[usu, cha],successGen,errorGen);
+        tx.executeSql("INSERT INTO favoritos(usuario,cancha) VALUES (?,?)",[usu, cha]);
     });
 }
 function deleteFavorito(usu, cha){
     db.transaction(function(tx){
-        tx.executeSql("DELETE FROM favoritos WHERE usuario=? and cancha=?",[usu, cha],successGen,errorGen);
+        tx.executeSql("DELETE FROM favoritos WHERE usuario=? and cancha=?",[usu, cha]);
     });
 }
-
-function cargarFavoritos(tx, results){
-    successGen();
-    favoritos = [];
-    var i, largo = sqlResultSet.rows.length;
-    for(i=0; i< largo; i++){
-        favoritos.push(sqlResultSet.rows.item(i).cancha)
-    }
-}
-function errorGen(e1, e2, e3){
-    console.log("error!");
-    console.log(e1);
-    console.log(e2);
-    console.log(e3);
-}
-function successGen(){
-   // console.log("Gol!");
-}
-
 
 ////////////////////////////////////////////////////////// Detalle Partido ////////////////////////////////////////////////////////
 function cargarPaginaDetallePartido(partido){
