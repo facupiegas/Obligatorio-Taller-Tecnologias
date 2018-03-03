@@ -1,15 +1,14 @@
 var favoritos = [];
+var db;
 
 $(document).ready(function(){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5);
     db.transaction(function(tx){
-        tx.executeSql("CREATE TABLE IF NOT EXISTS favoritos (usuario INTEGER, cancha TEXT)", []);    
-    }, errorGen, successGen)
+        tx.executeSql("CREATE TABLE IF NOT EXISTS favoritos (usuario INTEGER, cancha TEXT)");
+    });
 });
 
-
-
-//////////////////////////////////////////////////////// login & Signup, Logout
+//////////////////////////////////////////////////////// login & Signup, Logout ////////////////////////////////////////////////////////
 var idUsuario = -1;
 function hacerLogin(){
     var usuario = $('#login #usuario').val();
@@ -61,8 +60,9 @@ function hacerLogout(){
     $.mobile.navigate('#login');
 }
 
-//Canchas
+//////////////////////////////////////////////////////// Canchas ////////////////////////////////////////////////////////
 function cargarPaginaListadoCanchas(){
+    selectFavoritos(idUsuario);
     if(idUsuario != -1){
         $.ajax({
             type: "GET",
@@ -143,6 +143,17 @@ function cargarDetalleCancha(cancha){
         }
     })  
 }
+function initMap() {
+    var uluru = {lat: -5, lng: -5};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: uluru
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
+}
 
 
 function initMap() {
@@ -157,38 +168,20 @@ function initMap() {
     });
 }
 
-//Favoritos
+////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
 function cargarPaginaFavoritos(){
     if(idUsuario != -1){
-
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "http://quierojugar.tribus.com.uy/getCanchas",
-            data:'',
-            success: function(retorno){
-                $.when(selectFavoritos(idUsuario)).then(function(){
-                    var lista = $("#listadoFavoritos #canchasfavoritas").listview();
-                    lista.empty();
-                    var largo = retorno.canchas.length;
-                    var i;
-                    for(i=0; i<largo; i++){
-                        if(favoritos.indexOf(retorno.canchas[i].nombre) > -1){
-                            lista.append(
-                                "<li><a href='#detalleCancha' id='" + retorno.canchas[i].nombre + "' onclick='cargarPaginaDetalleCancha(" + retorno.canchas[i].nombre + ")'>" + retorno.canchas[i].nombre + "</a>"
-                                + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
-                            );
-                        }
-                    }
-                    lista.listview('refresh',$.mobile.navigate('#listadoFavoritos'));
-                });
-            },
-            error:function(retorno){
-                $('#login #mensaje').html("<p>"+ retorno.mensaje +"</p>")
-            }
-        })
-    } else {
-        $.mobile.navigate('#login');
+        var favs = $("#listadoFavoritos #canchasfavoritas").listview();
+        favs.empty();
+        var largo = favoritos.length;
+        var i;
+        for(i=0; i<largo; i++){
+            favs.append(
+                "<li><a href='#detalleCancha' id='" + favoritos[i] + "' onclick='cargarPaginaDetalleCancha(" + favoritos[i] + ")'>" + favoritos[i] + "</a>"
+                + "<a data-cancha='"+favoritos[i]+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
+            );
+        }
+        favs.listview('refresh',$.mobile.navigate('#listadoFavoritos'));
     }
 }
 function guardarCanchaFavorita(esto){
@@ -197,50 +190,64 @@ function guardarCanchaFavorita(esto){
         favoritos.push(id);
         esto.removeClass('ui-icon-star');
         esto.addClass('ui-icon-staryellow');
+        esto.attr('onclick', '');
         esto.attr('onclick', 'borrarCanchaFavorita($(this))');
         insertFavorito(idUsuario, id);
+        favoritos = selectFavoritos(idUsuario);
     }
 }
 function borrarCanchaFavorita(esto){
-    var id = esto.prev().attr('id');
+    var id = esto.data('cancha');
     var index = favoritos.indexOf(id);
     if(index > -1){
         favoritos.splice(index, 1);
         esto.removeClass('ui-icon-staryellow');
         esto.addClass('ui-icon-star');
+        esto.attr('onclick', '');
         esto.attr('onclick', 'guardarCanchaFavorita($(this))');
         deleteFavorito(idUsuario, id);
+        favoritos = selectFavoritos(idUsuario);
     }
 }
 function borrarDeFavoritos(esto){
     esto.closest('li').remove();
 }
-function guardarFavoritos(array){
-    //Funcion que guarda con SQL los favoritos en la base de datos local
-}
-function traerCanchasFavoritas(){
-    //Funcion que trae los favoritos de la base de datos local
+
+function selectFavoritos(usu){
+    db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5)
+    db.transaction(function (tx) {
+        tx.executeSql("SELECT cancha FROM favoritos WHERE usuario=?",[usu],
+        function(tx,result){
+            console.log(result);
+            favoritos = [];
+            var i, largo = result.rows.length;
+            for(i=0; i< largo; i++){
+                console.log(result.rows[i].cancha);
+                favoritos.push(result.rows.item(i).cancha);
+            }
+        }, function (error) {
+            console.log(error);
+        });
+    });
 }
 function insertFavorito(usu, cha){
     db.transaction(function(tx){
-        tx.executeSql("INSERT INTO favoritos(usuario,cancha) VALUES ("+usu+","+cha+")",[]);
+        tx.executeSql("INSERT INTO favoritos(usuario,cancha) VALUES (?,?)",[usu, cha],successGen,errorGen);
     });
 }
 function deleteFavorito(usu, cha){
     db.transaction(function(tx){
-        tx.executeSql("DELETE FROM favoritos WHERE usuario = "+usu+" and cancha = "+cha,[]);
+        tx.executeSql("DELETE FROM favoritos WHERE usuario=? and cancha=?",[usu, cha],successGen,errorGen);
     });
 }
-function selectFavoritos(usu){
-    db.readTransaction(function(tx){
-        tx.executeSql("SELECT cancha FROM favoritos WHERE usuario = "+usu,[],function(tx,sqlResultSet){
-            favoritos = [];
-            var i, largo = sqlResultSet.rows.length;
-            for(i=0; i< largo; i++){
-                favoritos.push(sqlResultSet.rows.item(i))
-            }
-        })
-    })
+
+function cargarFavoritos(tx, results){
+    successGen();
+    favoritos = [];
+    var i, largo = sqlResultSet.rows.length;
+    for(i=0; i< largo; i++){
+        favoritos.push(sqlResultSet.rows.item(i).cancha)
+    }
 }
 function errorGen(e1, e2, e3){
     console.log("error!");
@@ -249,13 +256,11 @@ function errorGen(e1, e2, e3){
     console.log(e3);
 }
 function successGen(){
-    console.log("Gol!");
+   // console.log("Gol!");
 }
 
 
-
-
-//Detalle Partido
+////////////////////////////////////////////////////////// Detalle Partido ////////////////////////////////////////////////////////
 function cargarPaginaDetallePartido(partido){
     $.ajax({
         type: "GET",
@@ -300,7 +305,7 @@ function cargarPaginaDetallePartido(partido){
     });
 }
 
-//Crear partido
+////////////////////////////////////////////////////////// Crear partido ////////////////////////////////////////////////////////
 function cargarPaginaNuevoPartido(idCancha){
         $.ajax({
             type: "GET",
