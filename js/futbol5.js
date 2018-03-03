@@ -64,7 +64,7 @@ function hacerLogout(){
     //Borrar sesion del usuario
     idUsuario = -1;
     //redirigir a login
-    $.mobile.navigate('#login');
+    $.mobile.navigate('#login', {transition: "pop", direction:"reverse"});
 }
 
 //////////////////////////////////////////////////////// Canchas ////////////////////////////////////////////////////////
@@ -176,7 +176,7 @@ function ajaxTraerPartidos(pNombCancha){
 }
 
 ////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
-function cargarPaginaFavoritos(){
+function cargarPaginaFavoritos(transEffect){
     if(idUsuario != -1){
         var favs = $("#listadoFavoritos #canchasfavoritas").listview();
         favs.empty();
@@ -188,7 +188,7 @@ function cargarPaginaFavoritos(){
                 + "<a data-cancha='"+favoritos[i]+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
             );
         }
-        favs.listview('refresh',$.mobile.navigate('#listadoFavoritos'));
+        favs.listview('refresh',$.mobile.navigate('#listadoFavoritos', ));
     }
 }
 function guardarCanchaFavorita(esto){
