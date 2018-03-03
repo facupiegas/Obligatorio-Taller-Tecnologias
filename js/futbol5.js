@@ -20,11 +20,18 @@ function hacerLogin(){
             url: "http://quierojugar.tribus.com.uy/login?user=" + usuario + "&password=" + pass,
             data:'',
             success: function(retorno){
-                idUsuario = retorno.id_usuario;
-                cargarPaginaListadoCanchas();
+                if(retorno.id_usuario != -1) {
+                    idUsuario = retorno.id_usuario;
+                    cargarPaginaListadoCanchas();
+                } 
+                else {
+                    if(retorno.id_usuario == -1) {
+                        $('#login #mensaje').html("Clve/Usuario incorrectos, verifique")
+                    }
+                }
             },
             error:function(retorno){
-                $('#login #mensaje').html("<p>"+ retorno.mensaje +"</p>")
+                $('#login #mensaje').html("Clve/Usuario incorrectos, verifique")
             }
         })
     } else {
@@ -46,7 +53,7 @@ function hacerSignup(){
                 cargarPaginaListadoCanchas();
             },
             error:function(retorno){
-                $('#signup #mensaje').html("<p>"+ retorno.mensaje +"</p>")
+                $('#signup #mensaje').html("<p>Usuario ya existente</p>")
             }
         })
     } else {
@@ -100,44 +107,27 @@ function cargarPaginaListadoCanchas(){
     }
 }
 function cargarDetalleCancha(cancha){
+    
     $.ajax({
         type: "GET",
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
-            $('#divInfoCancha h2').html(retorno.cancha.nombre);
-            $('#infoDireccion').html(retorno.cancha.direccion);
-            $('#infoTel').html(retorno.cancha.telefono);
-            var plat = retorno.cancha.ubicacion.latitud;
-            var plong = retorno.cancha.ubicacion.longitud;
-            gMap = new google.maps.Map(document.getElementById('map')); 
-            gMap.setZoom(14);      // This will trigger a zoom_changed on the map
-            gMap.setCenter(new google.maps.LatLng(plat, plong));
-            var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(plat, plong),
-                map: gMap,
-            });
-
-            // initMap();
-            // var mapa =new GMaps({
-            //                 div: '#map',
-            //                 lat: plat,
-            //                 lng: plong,
-            //             });
-            //   $("#map").html(mapa);
-            // var lista = $('#listInfoCancha').listview();
-            // lista.listview().empty();
-            // lista.html(
-            //     '<li data-role="list-divider">Dirección</li>' +
-            //     '<li>' + retorno.cancha.direccion + '</li>' +
-            //     '<li data-role="list-divider">Teléfono</li>' + 
-            //     '<li>' + retorno.cancha.telefono + '</li>'
-            // );
-            // tengo que refrescar lista o basta con html ?
-            // lista.listview('refresh',
-
-
-            $.mobile.navigate('#detalleCancha');
+            $.when(function (){
+                $('#divInfoCancha h2').html(retorno.cancha.nombre);
+                $('#infoDireccion').html(retorno.cancha.direccion);
+                $('#infoTel').html(retorno.cancha.telefono);
+                var plat = retorno.cancha.ubicacion.latitud;
+                var plong = retorno.cancha.ubicacion.longitud;
+                gMap = new google.maps.Map(document.getElementById('map')); 
+                gMap.setZoom(14); // zoom mapa
+                gMap.setCenter(new google.maps.LatLng(plat, plong));
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(plat, plong),
+                    map: gMap,
+                });
+                //ajaxTraerPartidos(retorno.cancha.nombre);//cargo los partidos de ka cancha en la lista
+            }).$.mobile.navigate('#detalleCancha'); 
         },
         error:function(retorno){
         }
@@ -155,18 +145,26 @@ function initMap() {
     });
 }
 
-
-function initMap() {
-    var uluru = {lat: -5, lng: -5};
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: uluru
-    });
-    var marker = new google.maps.Marker({
-        position: uluru,
-        map: map
+function ajaxTraerPartidos(pNombCancha){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "http://quierojugar.tribus.com.uy/getPartido?idPartidos=" + pNombCancha,
+        success: function(retorno){
+            var listaPartidos = $("#lstPartidos").listview();
+            listaPartidos.empty();
+            var largo =  partidos.length;
+            var i;
+            for(i=0; i<largo; i++){               
+                    listaPartidos.append("<li>" + retorno.partidos[i].nombre + "</li>");              
+            }
+        },
+        error: function(err){
+            //$('#detalleCancha #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
+        }
     });
 }
+
 
 ////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
 function cargarPaginaFavoritos(){
