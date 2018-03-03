@@ -1,5 +1,6 @@
 var favoritos = [];
 var db;
+
 $(document).ready(function(){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5);
     db.transaction(function(tx){
@@ -7,9 +8,7 @@ $(document).ready(function(){
     });
 });
 
-
-
-//////////////////////////////////////////////////////// login & Signup, Logout
+//////////////////////////////////////////////////////// login & Signup, Logout ////////////////////////////////////////////////////////
 var idUsuario = -1;
 function hacerLogin(){
     var usuario = $('#login #usuario').val();
@@ -61,7 +60,7 @@ function hacerLogout(){
     $.mobile.navigate('#login');
 }
 
-//Canchas
+//////////////////////////////////////////////////////// Canchas ////////////////////////////////////////////////////////
 function cargarPaginaListadoCanchas(){
     selectFavoritos(idUsuario);
     if(idUsuario != -1){
@@ -156,7 +155,20 @@ function initMap() {
     });
 }
 
-//Favoritos
+
+function initMap() {
+    var uluru = {lat: -5, lng: -5};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: uluru
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
+}
+
+////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
 function cargarPaginaFavoritos(){
     if(idUsuario != -1){
         var favs = $("#listadoFavoritos #canchasfavoritas").listview();
@@ -201,8 +213,6 @@ function borrarDeFavoritos(esto){
     esto.closest('li').remove();
 }
 
-/////////////////////////////////////////////////////////////
-
 function selectFavoritos(usu){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5)
     db.transaction(function (tx) {
@@ -231,9 +241,6 @@ function deleteFavorito(usu, cha){
     });
 }
 
-
-/////////////////////////////////////////////////////////////
-
 function cargarFavoritos(tx, results){
     successGen();
     favoritos = [];
@@ -253,9 +260,7 @@ function successGen(){
 }
 
 
-
-
-//Detalle Partido
+////////////////////////////////////////////////////////// Detalle Partido ////////////////////////////////////////////////////////
 function cargarPaginaDetallePartido(partido){
     $.ajax({
         type: "GET",
@@ -300,7 +305,7 @@ function cargarPaginaDetallePartido(partido){
     });
 }
 
-//Crear partido
+////////////////////////////////////////////////////////// Crear partido ////////////////////////////////////////////////////////
 function cargarPaginaNuevoPartido(idCancha){
         $.ajax({
             type: "GET",
