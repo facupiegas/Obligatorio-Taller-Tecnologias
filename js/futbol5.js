@@ -20,11 +20,18 @@ function hacerLogin(){
             url: "http://quierojugar.tribus.com.uy/login?user=" + usuario + "&password=" + pass,
             data:'',
             success: function(retorno){
-                idUsuario = retorno.id_usuario;
-                cargarPaginaListadoCanchas();
+                if(retorno.id_usuario != -1) {
+                    idUsuario = retorno.id_usuario;
+                    cargarPaginaListadoCanchas();
+                } 
+                else {
+                    if(retorno.id_usuario == -1) {
+                        $('#login #mensaje').html("Clve/Usuario incorrectos, verifique")
+                    }
+                }
             },
             error:function(retorno){
-                $('#login #mensaje').html("<p>"+ retorno.mensaje +"</p>")
+                $('#login #mensaje').html("Clve/Usuario incorrectos, verifique")
             }
         })
     } else {
@@ -46,7 +53,7 @@ function hacerSignup(){
                 cargarPaginaListadoCanchas();
             },
             error:function(retorno){
-                $('#signup #mensaje').html("<p>"+ retorno.mensaje +"</p>")
+                $('#signup #mensaje').html("<p>Usuario ya existente</p>")
             }
         })
     } else {
@@ -107,23 +114,26 @@ function cargarDetalleCancha(cancha){
         success: function(retorno){
             $('#divInfoCancha h2').html(retorno.cancha.nombre);
             $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'")');
+          
+            //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
             $('#fotosCancha .ui-block-a ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'>");
             $('#fotosCancha .ui-block-b ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'>");
             $('#fotosCancha .ui-block-c ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'>");
-            
-            
+          
+          
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
             var plat = retorno.cancha.ubicacion.latitud;
             var plong = retorno.cancha.ubicacion.longitud;
             gMap = new google.maps.Map(document.getElementById('map')); 
-            gMap.setZoom(14);      // This will trigger a zoom_changed on the map
+            gMap.setZoom(14); // zoom mapa
             gMap.setCenter(new google.maps.LatLng(plat, plong));
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(plat, plong),
                 map: gMap,
             });
-            $.mobile.navigate('#detalleCancha');
+            ajaxTraerPartidos(retorno.cancha.nombre);//cargo los partidos de ka cancha en la lista
+            $.mobile.navigate('#detalleCancha'); 
         },
         error:function(retorno){
         }
@@ -141,6 +151,29 @@ function initMap() {
     });
 }
 
+
+function ajaxTraerPartidos(pNombCancha){
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "http://quierojugar.tribus.com.uy/getPartidos?nombreCancha=" + pNombCancha,
+        success: function(retorno){
+            if(retorno.retorno == 'OK'){
+                var listaPartidos = $("#lstPartidos").listview();
+                listaPartidos.empty();
+                var largo = retorno.partidos.length;
+                var i;
+                for(i=0; i<largo; i++){               
+                        listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+")'>" + retorno.partidos[i].nombre + "<a/></li>");              
+                }
+                listaPartidos.listview('refresh');
+            }  
+        },
+        error: function(err){
+            //$('#detalleCancha #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
+        }
+    });
+}
 
 ////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
 function cargarPaginaFavoritos(){
@@ -191,46 +224,25 @@ function selectFavoritos(usu){
     db.transaction(function (tx) {
         tx.executeSql("SELECT cancha FROM favoritos WHERE usuario=?",[usu],
         function(tx,result){
-            console.log(result);
             favoritos = [];
             var i, largo = result.rows.length;
             for(i=0; i< largo; i++){
-                console.log(result.rows[i].cancha);
                 favoritos.push(result.rows.item(i).cancha);
             }
         }, function (error) {
-            console.log(error);
         });
     });
 }
 function insertFavorito(usu, cha){
     db.transaction(function(tx){
-        tx.executeSql("INSERT INTO favoritos(usuario,cancha) VALUES (?,?)",[usu, cha],successGen,errorGen);
+        tx.executeSql("INSERT INTO favoritos(usuario,cancha) VALUES (?,?)",[usu, cha]);
     });
 }
 function deleteFavorito(usu, cha){
     db.transaction(function(tx){
-        tx.executeSql("DELETE FROM favoritos WHERE usuario=? and cancha=?",[usu, cha],successGen,errorGen);
+        tx.executeSql("DELETE FROM favoritos WHERE usuario=? and cancha=?",[usu, cha]);
     });
 }
-function cargarFavoritos(tx, results){
-    successGen();
-    favoritos = [];
-    var i, largo = sqlResultSet.rows.length;
-    for(i=0; i< largo; i++){
-        favoritos.push(sqlResultSet.rows.item(i).cancha)
-    }
-}
-function errorGen(e1, e2, e3){
-    console.log("error!");
-    console.log(e1);
-    console.log(e2);
-    console.log(e3);
-}
-function successGen(){
-   // console.log("Gol!");
-}
-
 
 ////////////////////////////////////////////////////////// Detalle Partido ////////////////////////////////////////////////////////
 function cargarPaginaDetallePartido(partido){
