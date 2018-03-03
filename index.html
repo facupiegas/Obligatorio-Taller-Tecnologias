@@ -92,7 +92,7 @@
                 <ul id='canchas' data-role="listview" data-split-icon='star'>
                 </ul>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' class='active ui-state-persist'>Canchas</a></li>
@@ -115,7 +115,7 @@
                     
                 </ul>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
 
                     <div data-role='navbar'>
                         <ul>
@@ -151,24 +151,15 @@
                     <div id="divPartidosCancha" data-role="collapsible">
                         <h3>Partidos</h3>
                         <ul id="lstPartidos" data-role="listview"  data-filter="true" data-filter-placeholder="Buscar Partido">
-                    <!--         <li><a>Partido 1</a></li>
-                            <li><a>Partido 2</a></li>
-                            <li><a>Partido 3</a></li>
-                            <li><a>Partido 4</a></li>
-                            <li><a>Partido 5</a></li>
-                            <li><a>Partido 6</a></li>
-                            <li><a>Partido 7</a></li>
-                            <li><a>Partido 8</a></li> -->
                         </ul>
                     </div>     
                 </div>  
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' class='active ui-state-persist' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                        <li><a href='#' data-transition='slideup'>Favoritos</a></li>
-                        <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
+                        <li><a href='#' data-transition='slideup' onclick='cargarPaginaFavoritos()'>Favoritos</a></li>
                         <li><a href='#' data-transition='slideup' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                     </ul>
                 </div>
@@ -194,12 +185,11 @@
                         </ul>
                     </div>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                   <div data-role='navbar'>
                       <ul>
                           <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
                           <li><a href='#' onclick='traerFavoritos()'>Favoritos</a></li>
-                          <!-- <li><a href='#listadoPartidos'>Partidos</a></li> -->
                           <li><a href='#' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                       </ul>
                   </div>
@@ -239,12 +229,11 @@
                     </form>
                 <div id='mensaje'></div>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                        <li><a href='#' data-transition='slideup'>Favoritos</a></li>
-                        <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
+                        <li><a href='#' data-transition='slideup' onclick='cargarPaginaFavoritos()'>Favoritos</a></li>
                         <li><a href='#'  class='active ui-state-persist' data-transition='slideup'>Nuevo</a></li>
                     </ul>
                 </div>
