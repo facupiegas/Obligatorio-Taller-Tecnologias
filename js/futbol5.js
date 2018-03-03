@@ -106,6 +106,12 @@ function cargarDetalleCancha(cancha){
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
             $('#divInfoCancha h2').html(retorno.cancha.nombre);
+            $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'")');
+            $('#fotosCancha .ui-block-a ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'>");
+            $('#fotosCancha .ui-block-b ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'>");
+            $('#fotosCancha .ui-block-c ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'>");
+            
+            
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
             var plat = retorno.cancha.ubicacion.latitud;
@@ -117,26 +123,6 @@ function cargarDetalleCancha(cancha){
                 position: new google.maps.LatLng(plat, plong),
                 map: gMap,
             });
-
-            // initMap();
-            // var mapa =new GMaps({
-            //                 div: '#map',
-            //                 lat: plat,
-            //                 lng: plong,
-            //             });
-            //   $("#map").html(mapa);
-            // var lista = $('#listInfoCancha').listview();
-            // lista.listview().empty();
-            // lista.html(
-            //     '<li data-role="list-divider">Dirección</li>' +
-            //     '<li>' + retorno.cancha.direccion + '</li>' +
-            //     '<li data-role="list-divider">Teléfono</li>' + 
-            //     '<li>' + retorno.cancha.telefono + '</li>'
-            // );
-            // tengo que refrescar lista o basta con html ?
-            // lista.listview('refresh',
-
-
             $.mobile.navigate('#detalleCancha');
         },
         error:function(retorno){
@@ -155,18 +141,6 @@ function initMap() {
     });
 }
 
-
-function initMap() {
-    var uluru = {lat: -5, lng: -5};
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: uluru
-    });
-    var marker = new google.maps.Marker({
-        position: uluru,
-        map: map
-    });
-}
 
 ////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
 function cargarPaginaFavoritos(){
@@ -212,7 +186,6 @@ function borrarCanchaFavorita(esto){
 function borrarDeFavoritos(esto){
     esto.closest('li').remove();
 }
-
 function selectFavoritos(usu){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5)
     db.transaction(function (tx) {
@@ -240,7 +213,6 @@ function deleteFavorito(usu, cha){
         tx.executeSql("DELETE FROM favoritos WHERE usuario=? and cancha=?",[usu, cha],successGen,errorGen);
     });
 }
-
 function cargarFavoritos(tx, results){
     successGen();
     favoritos = [];
