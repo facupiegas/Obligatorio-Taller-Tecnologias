@@ -1,4 +1,5 @@
 var favoritos = [];
+
 $(document).ready(function(){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5);
     db.transaction(function(tx){
@@ -107,6 +108,23 @@ function cargarDetalleCancha(cancha){
             $('#divInfoCancha h2').html(retorno.cancha.nombre);
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
+            var plat = retorno.cancha.ubicacion.latitud;
+            var plong = retorno.cancha.ubicacion.longitud;
+            gMap = new google.maps.Map(document.getElementById('map')); 
+            gMap.setZoom(14);      // This will trigger a zoom_changed on the map
+            gMap.setCenter(new google.maps.LatLng(plat, plong));
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(plat, plong),
+                map: gMap,
+            });
+
+            // initMap();
+            // var mapa =new GMaps({
+            //                 div: '#map',
+            //                 lat: plat,
+            //                 lng: plong,
+            //             });
+            //   $("#map").html(mapa);
             // var lista = $('#listInfoCancha').listview();
             // lista.listview().empty();
             // lista.html(
@@ -117,12 +135,26 @@ function cargarDetalleCancha(cancha){
             // );
             // tengo que refrescar lista o basta con html ?
             // lista.listview('refresh',
+
+
             $.mobile.navigate('#detalleCancha');
         },
         error:function(retorno){
-            
         }
     })  
+}
+
+
+function initMap() {
+    var uluru = {lat: -5, lng: -5};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: uluru
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
 }
 
 //Favoritos
