@@ -38,7 +38,7 @@
     <body>  
 
         <!--//////////////////////////////////////////////////////  LOGIN  //////////////////////////////////////////////////////-->
-        <div data-role='page' id='login' data-title='Login' data-transition='slideup'>
+        <div data-role='page' id='login' data-title='Login'>
             <div data-role='header'>
                 <h2>Futbol 5</h2>
             </div>
@@ -62,7 +62,7 @@
         </div>
 
         <!--//////////////////////////////////////////////////////  SIGNUP  //////////////////////////////////////////////////////-->
-        <div data-role='page' id='signup' data-title='Signup' data-add-back-btn='true'data-transition='slideup'>
+        <div data-role='page' id='signup' data-title='Signup' data-add-back-btn='true'>
             <div data-role='header'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
@@ -90,7 +90,7 @@
         </div>
       
         <!--//////////////////////////////////////////////////////  LISTADO DE CANCHAS  //////////////////////////////////////////////////////-->
-        <div data-role='page' id='listadoCanchas' data-title='Listado de Canchas' data-add-back-btn='true' data-transition='slideup'>
+        <div data-role='page' id='listadoCanchas' data-title='Listado de Canchas' data-add-back-btn='true'>
             <div data-role='header'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
@@ -100,7 +100,7 @@
                 <ul id='canchas' data-role="listview" data-split-icon='star'>
                 </ul>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' class='active ui-state-persist'>Canchas</a></li>
@@ -113,7 +113,7 @@
 
 
         <!--//////////////////////////////////////////////////////  LISTADO DE CANCHAS FAVORITAS  //////////////////////////////////////////////////////!-->
-        <div data-role='page' id='listadoFavoritos' data-title='Listado de Favoritos' data-add-back-btn='true' data-transition='slideup'>
+        <div data-role='page' id='listadoFavoritos' data-title='Listado de Favoritos' data-add-back-btn='true'>
             <div data-role='header'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
@@ -124,8 +124,7 @@
                     
                 </ul>
             </div>
-            <div data-role='footer' data-position='fixed'>
-
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                     <div data-role='navbar'>
                         <ul>
                             <li><a href='#' data-transition='slideleft' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
@@ -137,7 +136,7 @@
         </div>
               
         <!--//////////////////////////////////////////////////////  DETALLE DE UNA CANCHA  //////////////////////////////////////////////////////-->                    
-        <div data-role='page' id='detalleCancha' data-title='Detalle de Cancha' data-add-back-btn='true' data-transition='slideup'>
+        <div data-role='page' id='detalleCancha' data-title='Detalle de Cancha' data-add-back-btn='true'>
             <div data-role='header'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
@@ -172,12 +171,11 @@
                     </div>     
                 </div>  
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' class='active ui-state-persist' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                        <li><a href='#' data-transition='slideup'>Favoritos</a></li>
-                        <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
+                        <li><a href='#' data-transition='slideup' onclick='cargarPaginaFavoritos()'>Favoritos</a></li>
                         <li><a href='#' data-transition='slideup' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                     </ul>
                 </div>
@@ -185,7 +183,7 @@
         </div>
 
         <!--//////////////////////////////////////////////////////  DETALLE DE UN PARTIDO  //////////////////////////////////////////////////////-->      
-        <div data-role='page' id='detallePartido' data-title='Detalle de Partido' data-add-back-btn='true' data-transition='slideup'>
+        <div data-role='page' id='detallePartido' data-title='Detalle de Partido' data-add-back-btn='true'>
             <div data-role='header'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
@@ -203,12 +201,11 @@
                         </ul>
                     </div>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                   <div data-role='navbar'>
                       <ul>
                           <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
                           <li><a href='#' onclick='traerFavoritos()'>Favoritos</a></li>
-                          <!-- <li><a href='#listadoPartidos'>Partidos</a></li> -->
                           <li><a href='#' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                       </ul>
                   </div>
@@ -216,7 +213,7 @@
         </div>
 
         <!--//////////////////////////////////////////////////////  NUEVO PARTIDO  //////////////////////////////////////////////////////-->    
-        <div data-role='page' id='nuevoPartido' data-title='Nuevo Partido' data-add-back-btn='true' data-transition='slideup'>
+        <div data-role='page' id='nuevoPartido' data-title='Nuevo Partido' data-add-back-btn='true'>
             <div data-role='header'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
@@ -248,12 +245,11 @@
                     </form>
                 <div id='mensaje'></div>
             </div>
-            <div data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' data-transition='slideup' onclick='cargarPaginaListadoCanchas()'>Canchas</a></li>
-                        <li><a href='#' data-transition='slideup'>Favoritos</a></li>
-                        <!-- <li><a href='#listadoPartidos' data-transition='slideup'>Partidos</a></li> -->
+                        <li><a href='#' data-transition='slideup' onclick='cargarPaginaFavoritos()'>Favoritos</a></li>
                         <li><a href='#'  class='active ui-state-persist' data-transition='slideup'>Nuevo</a></li>
                     </ul>
                 </div>
