@@ -130,7 +130,7 @@ function cargarDetalleCancha(cancha, efectoTransicion){
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
-            $('#divInfoCancha h2 span').html(retorno.cancha.nombre);
+            $('#divInfoCancha h3 span').html(retorno.cancha.nombre);
             $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'","slide")');
           
             //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
@@ -374,6 +374,7 @@ function ajaxCrearPartido(cancha, nombre, siONo){
                     $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>");
                 }
             }
+            navigator.vibrate(400);
         },
         error:function(err){
             $('#nuevoPartido #mensaje').html("<p>"+ $.parseJSON(err.responseText) +"</p>");
@@ -387,6 +388,7 @@ function inscribirsePartido(usuario, partido){
         url: "http://quierojugar.tribus.com.uy/inscribirseAPartido?idUsuario="+usuario+"&idPartido="+partido,  
         success: function(retorno){
             if(retorno.retorno == 'OK'){
+                navigator.vibrate(400);
                 return;
             }
             if(retorno.retorno == 'ERROR') {
