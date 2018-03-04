@@ -52,7 +52,7 @@
 <body>
      <!--//////////////////////////////////////////////////////  LOGIN  //////////////////////////////////////////////////////-->
         <div data-role='page' id='login' data-title='Login'>
-            <div data-role='header' data-theme="b">
+            <div data-role='header' data-theme="b" data-position='fixed'>
                 <h2>Futbol 5</h2>
             </div>
             <div data-role='content'>
@@ -78,7 +78,7 @@
 
         <!--//////////////////////////////////////////////////////  SIGNUP  //////////////////////////////////////////////////////-->
         <div data-role='page' id='signup' data-title='Signup' data-add-back-btn='true'>
-            <div data-role='header' data-theme="b">
+            <div data-role='header' data-theme="b" data-position='fixed'>
                 <h2>Futbol 5</h2>
             </div>
             <div data-role='content'>
@@ -108,7 +108,7 @@
       
         <!--//////////////////////////////////////////////////////  LISTADO DE CANCHAS  //////////////////////////////////////////////////////-->
         <div data-role='page' id='listadoCanchas' data-title='Listado de Canchas' data-add-back-btn='true'>
-            <div data-role='header' data-theme="b">
+            <div data-role='header' data-theme="b"  data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -130,7 +130,7 @@
 
         <!--//////////////////////////////////////////////////////  LISTADO DE CANCHAS FAVORITAS  //////////////////////////////////////////////////////!-->
         <div data-role='page' id='listadoFavoritos' data-title='Listado de Favoritos' data-add-back-btn='true'>
-            <div data-role='header' data-theme="b">
+            <div data-role='header' data-theme="b"  data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -153,7 +153,7 @@
               
         <!--//////////////////////////////////////////////////////  DETALLE DE UNA CANCHA  //////////////////////////////////////////////////////-->                    
         <div data-role='page' id='detalleCancha' data-title='Detalle de Cancha' data-add-back-btn='true'>
-            <div data-role='header' data-theme="b">
+            <div data-role='header' data-theme="b" data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -164,7 +164,19 @@
                     <div class="ui-block-b"></div>
                     <div class="ui-block-c"></div>
                 </div>
-                <h2><input id='nuevoPartidoCancha' type="button" data-inline="true" value="Nuevo Partido"></h2>   
+                <div data-role="popup" id="foto1Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+                    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                    <img class="popphoto" src=""  alt="">
+                </div>
+                <div data-role="popup" id="foto2Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+                    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                    <img class="popphoto" src=""  alt="">
+                </div>
+                <div data-role="popup" id="foto3Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+                    <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                    <img class="popphoto" src=""  alt="">
+                </div>
+                <h2><span></span>&nbsp;<input id='nuevoPartidoCancha' type="button" data-inline="true" value="Nuevo Partido"></h2>   
                 <ul data-role="listview" id='#listInfoCancha' data-inset="true" data-divider-theme="a">
                     <li data-role="list-divider">Dirección</li>
                     <li id="infoDireccion"></li>
@@ -183,18 +195,7 @@
                     </div>     
                 </div>  
             </div>
-            <div data-role="popup" id="foto1Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
-                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <img class="popphoto" src=""  alt="">
-            </div>
-            <div data-role="popup" id="foto2Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
-                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <img class="popphoto" src=""  alt="">
-            </div>
-            <div data-role="popup" id="foto3Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
-                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
-                <img class="popphoto" src=""  alt="">
-            </div>
+           
             <div data-id="myfooter" data-role='footer' data-position='fixed' data-theme="b">
                 <div data-role='navbar'>
                     <ul>
@@ -208,7 +209,7 @@
 
         <!--//////////////////////////////////////////////////////  DETALLE DE UN PARTIDO  //////////////////////////////////////////////////////-->      
         <div data-role='page' id='detallePartido' data-title='Detalle de Partido' data-add-back-btn='true'>
-            <div data-role='header' data-theme="b">
+            <div data-role='header' data-theme="b" data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -238,7 +239,7 @@
 
         <!--//////////////////////////////////////////////////////  NUEVO PARTIDO  //////////////////////////////////////////////////////-->    
         <div data-role='page' id='nuevoPartido' data-title='Nuevo Partido' data-add-back-btn='true'>
-            <div data-role='header' data-theme="b">
+            <div data-role='header' data-theme="b" data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
