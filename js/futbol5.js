@@ -63,8 +63,23 @@ function hacerSignup(){
 function hacerLogout(){
     //Borrar sesion del usuario
     idUsuario = -1;
-    //redirigir a login
-    $.mobile.navigate('#login', {transition: 'slidedown'});
+    cargarLogin();
+}
+
+function cargarLogin(){
+    $("#login #mensaje").html(""); //vacio div mensaje
+    //vacio inputs
+    $("#login input[type='text']").val(""); 
+    $("#login input[type='password']").val(""); 
+    $.mobile.navigate('#login', {transition: 'pop', reverse:'true'});
+}
+
+function cargarSignup(){
+    $("#signup #mensaje").html(""); //vacio div mensaje
+    //vacio inputs
+    $("#signup input[type='text']").val(""); 
+    $("#signup input[type='password']").val(""); 
+    $.mobile.navigate('#signup', {transition: 'pop'});
 }
 
 //////////////////////////////////////////////////////// Canchas ////////////////////////////////////////////////////////
@@ -96,9 +111,9 @@ function cargarPaginaListadoCanchas(efectoTransicion){
                         }
                     }
                     if(efectoTransicion == "left"){
-                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transicion: 'slide', direction:'reverse'}));
+                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:''}));
                     } else {
-                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transicion: efectoTransicion}));
+                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: efectoTransicion}));
                     }
                     
                 });
@@ -330,7 +345,7 @@ function cargarPaginaNuevoPartido(idCancha){
                     if(idCancha != null){
                         $("#nuevoPartido #selectCancha option[value='"+idCancha+"']").attr("selected","selected");
                     }
-                    select.selectmenu().selectmenu("refresh", $.mobile.navigate('#nuevoPartido'),{transition:'slide'});
+                    select.selectmenu().selectmenu("refresh", $.mobile.navigate('#nuevoPartido',{transition:'slide'}));
                 } else {
                     if(retorno.retorno == 'ERROR') {
                         $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")

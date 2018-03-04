@@ -10,7 +10,6 @@
             <script src='js/jquery.mobile-1.4.5.min.js'></script>
             <script src="js/gmaps.js"></script>
             <script async defer type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9MQ53H3mkO0WTMp1fmXGIVMNt8fuvSYk&libraries=places&callback=initMap"></script>
-            <script src="js/imageflip.mini.js"></script>
             <script src='js/futbol5.js'></script>
             <style>
                 .ui-icon-staryellow:after {
@@ -33,28 +32,37 @@
                     height: 100%;
                     width: 100%;
                 }
+                .ui-hide-label.ui-br, .no-field-separator {
+                    border-bottom-width: 0;
+                }
+                .ui-field-contain.ui-hide-label, .no-field-separator {
+                    margin: 1em 0;
+                    padding: 0;
+                }   
             </style>
         </head>
     <body>  
 
         <!--//////////////////////////////////////////////////////  LOGIN  //////////////////////////////////////////////////////-->
         <div data-role='page' id='login' data-title='Login'>
-            <div data-role='header'>
+            <div data-role='header' data-theme="b">
                 <h2>Futbol 5</h2>
             </div>
             <div data-role='content'>
                 <form id='iniciar sesion'>
-                    <div class='ui-hide-label ui-field-contain'>
+                    <div class='ui-hide-label ui-field-contain no-field-separator'>
                         <label for='usuario'>Usuario:</label>
                         <input type='text' name='usuario' id='usuario' placeholder='Usuario'/>
                     </div>
-                    <div class='ui-hide-label ui-field-contain' >
+                    <div class='ui-hide-label ui-field-contain no-field-separator' >
                         <label for='clave'>Clave:</label>
                         <input type='password' id='clave' name='clave' placeholder="Contraseña"/>
                     </div>
-                        <div class='ui-field-contain' >
+                        <div class='ui-field-contain no-field-separator' >
                             <input type='button' id='login' value='Ingresar' onclick='hacerLogin()'/>
-                            <input type='button' id='signup' value='Nuevo Usuario' data-theme='b' onclick='$.mobile.navigate("#signup")'/>
+                        </div>
+                        <div class='ui-field-contain no-field-separator'  >
+                            <input type='button' id='signup' value='Nuevo Usuario' data-theme='b' onclick='cargarSignup()'/>
                         </div>
                 </form>
                 <div id='mensaje'></div>
@@ -63,27 +71,29 @@
 
         <!--//////////////////////////////////////////////////////  SIGNUP  //////////////////////////////////////////////////////-->
         <div data-role='page' id='signup' data-title='Signup' data-add-back-btn='true'>
-            <div data-role='header'>
-                <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
+            <div data-role='header' data-theme="b">
                 <h2>Futbol 5</h2>
             </div>
             <div data-role='content'>
                 <form id='iniciar sesion'>
-                    <div class='ui-hide-label ui-field-contain'>
+                    <div class='ui-hide-label ui-field-contain no-field-separator'>
                         <label for='usuario'>Usuario:</label>
                         <input type='text' name='usuario' id='usuario' placeholder='Usuario'/>
                     </div>
-                    <div class='ui-hide-label ui-field-contain' >
+                    <div class='ui-hide-label ui-field-contain no-field-separator' >
                         <label for='clave'>Clave:</label>
                         <input type='password' id='clave' name='clave' placeholder="Contraseña"/>
                     </div>
-                    <div class='ui-hide-label ui-field-contain' >
+                    <div class='ui-hide-label ui-field-contain no-field-separator' >
                         <label for='nombre'>Clave:</label>
                         <input type='text' id='nombre' name='nombre' placeholder="Nombre"/>
                     </div>
-                        <div class='ui-field-contain' >
-                            <input type='button' id='signup' value='Registrarse' data-theme='b' onclick='hacerSignup()'/>
-                        </div>
+                    <div class='ui-field-contain no-field-separator' >
+                        <input type='button' id='signup' value='Registrarse' data-theme='b' onclick='hacerSignup()'/>
+                    </div>
+                    <div class='ui-field-contain no-field-separator' >
+                        <input type='button' id='volver' value='Volver' onclick='cargarLogin()'/>
+                    </div>
                 </form>
                 <div id='mensaje'></div>
            </div>
@@ -91,7 +101,7 @@
       
         <!--//////////////////////////////////////////////////////  LISTADO DE CANCHAS  //////////////////////////////////////////////////////-->
         <div data-role='page' id='listadoCanchas' data-title='Listado de Canchas' data-add-back-btn='true'>
-            <div data-role='header'>
+            <div data-role='header' data-theme="b">
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -100,12 +110,12 @@
                 <ul id='canchas' data-role="listview" data-split-icon='star'>
                 </ul>
             </div>
-            <div data-id="myfooter" data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed' data-theme="b">
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' class='active ui-state-persist'>Canchas</a></li>
                         <li><a href='#' onclick='cargarPaginaFavoritos("slide")'>Favoritos</a></li>
-                        <li><a href='#' onclick='cargarPaginaNuevoPartido("slide")'>Nuevo</a></li>
+                        <li><a href='#' onclick='cargarPaginaNuevoPartido()'>Nuevo</a></li>
                     </ul>
                 </div>  
             </div>
@@ -113,7 +123,7 @@
 
         <!--//////////////////////////////////////////////////////  LISTADO DE CANCHAS FAVORITAS  //////////////////////////////////////////////////////!-->
         <div data-role='page' id='listadoFavoritos' data-title='Listado de Favoritos' data-add-back-btn='true'>
-            <div data-role='header'>
+            <div data-role='header' data-theme="b">
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -123,7 +133,7 @@
                     
                 </ul>
             </div>
-            <div data-id="myfooter" data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed' data-theme="b">
                     <div data-role='navbar'>
                         <ul>
                             <li><a href='#' onclick='cargarPaginaListadoCanchas("left")'>Canchas</a></li>
@@ -136,7 +146,7 @@
               
         <!--//////////////////////////////////////////////////////  DETALLE DE UNA CANCHA  //////////////////////////////////////////////////////-->                    
         <div data-role='page' id='detalleCancha' data-title='Detalle de Cancha' data-add-back-btn='true'>
-            <div data-role='header'>
+            <div data-role='header' data-theme="b">
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -178,7 +188,7 @@
                 <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
                 <img class="popphoto" src=""  alt="">
             </div>
-            <div data-id="myfooter" data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed' data-theme="b">
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas("slideup")'>Canchas</a></li>
@@ -191,7 +201,7 @@
 
         <!--//////////////////////////////////////////////////////  DETALLE DE UN PARTIDO  //////////////////////////////////////////////////////-->      
         <div data-role='page' id='detallePartido' data-title='Detalle de Partido' data-add-back-btn='true'>
-            <div data-role='header'>
+            <div data-role='header' data-theme="b">
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -208,11 +218,11 @@
                         </ul>
                     </div>
             </div>
-            <div data-id="myfooter" data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed' data-theme="b">
                   <div data-role='navbar'>
                       <ul>
                           <li><a href='#' class='active ui-state-persist' onclick='cargarPaginaListadoCanchas("slideup")'>Canchas</a></li>
-                          <li><a href='#' onclick='traerFavoritos("slide")'>Favoritos</a></li>
+                          <li><a href='#' onclick='cargarPaginaFavoritos("slide")'>Favoritos</a></li>
                           <li><a href='#' onclick='cargarPaginaNuevoPartido("slide")'>Nuevo</a></li>
                       </ul>
                   </div>
@@ -221,7 +231,7 @@
 
         <!--//////////////////////////////////////////////////////  NUEVO PARTIDO  //////////////////////////////////////////////////////-->    
         <div data-role='page' id='nuevoPartido' data-title='Nuevo Partido' data-add-back-btn='true'>
-            <div data-role='header'>
+            <div data-role='header' data-theme="b">
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
@@ -252,7 +262,7 @@
                     </form>
                 <div id='mensaje'></div>
             </div>
-            <div data-id="myfooter" data-role='footer' data-position='fixed'>
+            <div data-id="myfooter" data-role='footer' data-position='fixed' data-theme="b">
                 <div data-role='navbar'>
                     <ul>
                         <li><a href='#' data-transition='slideup' onclick='cargarPaginaListadoCanchas("left")'>Canchas</a></li>
