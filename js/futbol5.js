@@ -116,10 +116,21 @@ function cargarDetalleCancha(cancha){
             $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'")');
           
             //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
-            $('#fotosCancha .ui-block-a ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'>");
-            $('#fotosCancha .ui-block-b ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'>");
-            $('#fotosCancha .ui-block-c ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'>");
-          
+            $('#fotosCancha .ui-block-a ').html(
+                "<a href='#foto1Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
+                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'></a>"
+            );
+            $('#fotosCancha .ui-block-b ').html(
+                "<a href='#foto2Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
+                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'></a>"
+            );
+            $('#fotosCancha .ui-block-c ').html(
+                "<a href='#foto3Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
+                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'></a>"
+            );
+            $("#foto1Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[0]);
+            $("#foto2Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[1]);
+            $("#foto3Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[2]);
           
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
