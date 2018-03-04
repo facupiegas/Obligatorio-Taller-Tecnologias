@@ -130,7 +130,7 @@ function cargarDetalleCancha(cancha, efectoTransicion){
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
-            $('#divInfoCancha h2').html(retorno.cancha.nombre);
+            $('#divInfoCancha h2 span').html(retorno.cancha.nombre);
             $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'","slide")');
           
             //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
