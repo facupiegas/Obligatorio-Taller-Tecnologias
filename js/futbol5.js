@@ -22,7 +22,7 @@ function hacerLogin(){
             success: function(retorno){
                 if(retorno.id_usuario != -1) {
                     idUsuario = retorno.id_usuario;
-                    cargarPaginaListadoCanchas();
+                    cargarPaginaListadoCanchas('slideup');
                 } 
                 else {
                     if(retorno.id_usuario == -1) {
@@ -50,7 +50,7 @@ function hacerSignup(){
             data:'',
             success: function(retorno){
                 idUsuario = retorno.id_usuario;
-                cargarPaginaListadoCanchas();
+                cargarPaginaListadoCanchas('slideup');
             },
             error:function(retorno){
                 $('#signup #mensaje').html("<p>Usuario ya existente</p>")
@@ -64,11 +64,11 @@ function hacerLogout(){
     //Borrar sesion del usuario
     idUsuario = -1;
     //redirigir a login
-    $.mobile.navigate('#login', {transition: "pop", direction:"reverse"});
+    $.mobile.navigate('#login', {transition: 'slidedown'});
 }
 
 //////////////////////////////////////////////////////// Canchas ////////////////////////////////////////////////////////
-function cargarPaginaListadoCanchas(){
+function cargarPaginaListadoCanchas(efectoTransicion){
     selectFavoritos(idUsuario);
     if(idUsuario != -1){
         $.ajax({
@@ -85,17 +85,22 @@ function cargarPaginaListadoCanchas(){
                     for(i=0; i<largo; i++){
                         if(favoritos.indexOf(retorno.canchas[i].nombre) > -1){
                             lista.append(
-                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;)'>" + retorno.canchas[i].nombre + "</a>"
+                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;, &quot;pop&quot;)'>" + retorno.canchas[i].nombre + "</a>"
                                 + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this))'></a></li>"
                             );
                         } else {
                             lista.append(
-                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;)'>" + retorno.canchas[i].nombre + "</a>"
+                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;,&quot;pop&quot;)'>" + retorno.canchas[i].nombre + "</a>"
                                 + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' class='ui-icon-star' onclick='guardarCanchaFavorita($(this))'></a></li>"
                             );
                         }
                     }
-                    lista.listview('refresh',$.mobile.navigate('#listadoCanchas'));
+                    if(efectoTransicion == "left"){
+                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transicion: 'slide', direction:'reverse'}));
+                    } else {
+                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transicion: efectoTransicion}));
+                    }
+                    
                 });
             },
             error:function(retorno){
@@ -106,20 +111,31 @@ function cargarPaginaListadoCanchas(){
         $.mobile.navigate('#login');
     }
 }
-function cargarDetalleCancha(cancha){
+function cargarDetalleCancha(cancha, efectoTransicion){
     $.ajax({
         type: "GET",
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
             $('#divInfoCancha h2').html(retorno.cancha.nombre);
-            $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'")');
+            $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'","slide")');
           
             //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
-            $('#fotosCancha .ui-block-a ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'>");
-            $('#fotosCancha .ui-block-b ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'>");
-            $('#fotosCancha .ui-block-c ').html("<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'>");
-          
+            $('#fotosCancha .ui-block-a ').html(
+                "<a href='#foto1Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
+                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'></a>"
+            );
+            $('#fotosCancha .ui-block-b ').html(
+                "<a href='#foto2Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
+                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'></a>"
+            );
+            $('#fotosCancha .ui-block-c ').html(
+                "<a href='#foto3Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
+                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'></a>"
+            );
+            $("#foto1Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[0]);
+            $("#foto2Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[1]);
+            $("#foto3Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[2]);
           
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
@@ -133,7 +149,7 @@ function cargarDetalleCancha(cancha){
                 map: gMap,
             });
             ajaxTraerPartidos(retorno.cancha.nombre);//cargo los partidos de ka cancha en la lista
-            $.mobile.navigate('#detalleCancha'); 
+            $.mobile.navigate('#detalleCancha',{transition: efectoTransicion}); 
         },
         error:function(retorno){
         }
@@ -150,8 +166,6 @@ function initMap() {
         map: map
     });
 }
-
-
 function ajaxTraerPartidos(pNombCancha){
     $.ajax({
         type: "GET",
@@ -164,7 +178,7 @@ function ajaxTraerPartidos(pNombCancha){
                 var largo = retorno.partidos.length;
                 var i;
                 for(i=0; i<largo; i++){               
-                        listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+")'>" + retorno.partidos[i].nombre + "<a/></li>");              
+                        listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+",&quot;pop&quot;)'>" + retorno.partidos[i].nombre + "<a/></li>");              
                 }
                 listaPartidos.listview('refresh');
             }  
@@ -176,7 +190,7 @@ function ajaxTraerPartidos(pNombCancha){
 }
 
 ////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
-function cargarPaginaFavoritos(transEffect){
+function cargarPaginaFavoritos(efectoTransicion){
     if(idUsuario != -1){
         var favs = $("#listadoFavoritos #canchasfavoritas").listview();
         favs.empty();
@@ -184,11 +198,15 @@ function cargarPaginaFavoritos(transEffect){
         var i;
         for(i=0; i<largo; i++){
             favs.append(
-                "<li><a href='#detalleCancha' id='" + favoritos[i] + "' onclick='cargarPaginaDetalleCancha(" + favoritos[i] + ")'>" + favoritos[i] + "</a>"
+                "<li><a href='#detalleCancha' id='" + favoritos[i] + "' onclick='cargarDetalleCancha(" + favoritos[i] + ",'pop')'>" + favoritos[i] + "</a>"
                 + "<a data-cancha='"+favoritos[i]+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
             );
         }
-        favs.listview('refresh',$.mobile.navigate('#listadoFavoritos', ));
+        if(efectoTransicion == "left"){
+            favs.listview('refresh',$.mobile.navigate('#listadoFavoritos',{transition: 'slide', direction: "reverse"} ));
+        } else {
+            favs.listview('refresh',$.mobile.navigate('#listadoFavoritos',{transition: efectoTransicion} ));
+        }
     }
 }
 function guardarCanchaFavorita(esto){
@@ -245,7 +263,7 @@ function deleteFavorito(usu, cha){
 }
 
 ////////////////////////////////////////////////////////// Detalle Partido ////////////////////////////////////////////////////////
-function cargarPaginaDetallePartido(partido){
+function cargarPaginaDetallePartido(partido, efectoTransicion){
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -263,7 +281,7 @@ function cargarPaginaDetallePartido(partido){
                         "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>"
                         + "<p><b>Cancha:</b> " + retorno.partido.cancha + "</p>"
                         + "<p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>"
-                        + "<input type='button' id='jugar' value='Jugar' data-role='button' data-partido='"+retorno.partido.id+"' onclick='inscribirsePartido("+idUsuario+",$(this).data(&quot;partido&quot;)), cargarPaginaDetallePartido($(this).data(&quot;partido&quot;))'>"
+                        + "<input type='button' id='jugar' value='Jugar' data-role='button' data-partido='"+retorno.partido.id+"' onclick='inscribirsePartido("+idUsuario+",$(this).data(&quot;partido&quot;)), cargarPaginaDetallePartido($(this).data(&quot;partido&quot;),&quot;pop&quot;)'>"
                     );
                     $('#jugar').button();
                 }
@@ -276,7 +294,11 @@ function cargarPaginaDetallePartido(partido){
                         listaJugadores.append("<li>" + jugadoresPartido[i] + "</li>");
                     }
                 }
-                listaJugadores.listview('refresh', $.mobile.navigate('#detallePartido'));
+                if(efectoTransicion == 'left'){
+                    listaJugadores.listview('refresh', $.mobile.navigate('#detallePartido',{transition: 'slide', direction:'reverse'}));
+                } else {
+                    listaJugadores.listview('refresh', $.mobile.navigate('#detallePartido',{transition: efectoTransicion}));
+                }
             } else {
                 if(retorno.retorno == 'ERROR') {
                     $('#detalleCancha #mensaje').html("<p>"+ retorno.mensaje +"</p>")
@@ -308,7 +330,7 @@ function cargarPaginaNuevoPartido(idCancha){
                     if(idCancha != null){
                         $("#nuevoPartido #selectCancha option[value='"+idCancha+"']").attr("selected","selected");
                     }
-                    select.selectmenu().selectmenu("refresh", $.mobile.navigate('#nuevoPartido'))
+                    select.selectmenu().selectmenu("refresh", $.mobile.navigate('#nuevoPartido'),{transition:'slide'});
                 } else {
                     if(retorno.retorno == 'ERROR') {
                         $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")
@@ -339,9 +361,9 @@ function ajaxCrearPartido(cancha, nombre, siONo){
             if(retorno.retorno == 'OK'){
                 var ret = retorno
                 if(siONo == "true"){
-                    $.when(inscribirsePartido(idUsuario, ret.idPartido)).then(cargarPaginaDetallePartido(ret.idPartido));
+                    $.when(inscribirsePartido(idUsuario, ret.idPartido)).then(cargarPaginaDetallePartido(ret.idPartido, 'slideleft'));
                 } else {
-                    cargarPaginaDetallePartido(ret.idPartido);
+                    cargarPaginaDetallePartido(ret.idPartido, "left");
                 }
             } else {
                 if(retorno.retorno == 'ERROR') {
