@@ -26,7 +26,7 @@
                     width: 100%;
                     height: 150px;
                 }
-                .ui-grid-b {
+                #fotosCancha {
                     height: 80px;
                 }
                 .ui-grid-b  img{
@@ -143,16 +143,12 @@
                 <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
             </div>
             <div data-role='content' id='divInfoCancha'>
-                <h2></h2>
-                <input id='nuevoPartidoCancha' type="button" data-inline="true" value="Nuevo Partido">
-                    <div id='fotosCancha' class="ui-grid-b">
-                        <div class="ui-block-a">                            
-                        </div>
-                        <div class="ui-block-b">                         
-                        </div>
-                        <div class="ui-block-c">           
-                        </div>
-                    </div>
+                <div id='fotosCancha' class="ui-grid-b">
+                    <div class="ui-block-a"></div>
+                    <div class="ui-block-b"></div>
+                    <div class="ui-block-c"></div>
+                </div>
+                <h2><input id='nuevoPartidoCancha' type="button" data-inline="true" value="Nuevo Partido"></h2>   
                 <ul data-role="listview" id='#listInfoCancha' data-inset="true" data-divider-theme="a">
                     <li data-role="list-divider">Dirección</li>
                     <li id="infoDireccion"></li>
@@ -170,6 +166,18 @@
                         </ul>
                     </div>     
                 </div>  
+            </div>
+            <div data-role="popup" id="foto1Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <img class="popphoto" src=""  alt="">
+            </div>
+            <div data-role="popup" id="foto2Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <img class="popphoto" src=""  alt="">
+            </div>
+            <div data-role="popup" id="foto3Popup" data-overlay-theme="b" data-theme="b" data-corners="false">
+                <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+                <img class="popphoto" src=""  alt="">
             </div>
             <div data-id="myfooter" data-role='footer' data-position='fixed'>
                 <div data-role='navbar'>
