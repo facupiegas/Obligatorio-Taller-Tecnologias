@@ -6,8 +6,31 @@ $(document).ready(function(){
     db.transaction(function(tx){
         tx.executeSql("CREATE TABLE IF NOT EXISTS favoritos (usuario INTEGER, cancha TEXT)");
     });
+    db.transaction(function(tx){
+        tx.executeSql("CREATE TABLE IF NOT EXISTS fotos (usuario INTEGER, partido INTEGER, foto TEXT)");
+    });
 });
-
+$('#listadoCanchas').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detallePartido').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#listadoFavoritos').live('swipeleft', function(){
+    cargarPaginaNuevoPartido('slide');
+});
+$('#listadoFavoritos').live('swiperight', function(){
+    cargarPaginaListadoCanchas('left');
+});
+$('#nuevoPartido').live('swiperight', function(){
+    cargarPaginaFavoritos('left');
+});
 //////////////////////////////////////////////////////// login & Signup, Logout ////////////////////////////////////////////////////////
 var idUsuario = -1;
 function hacerLogin(){
@@ -65,7 +88,6 @@ function hacerLogout(){
     idUsuario = -1;
     cargarLogin();
 }
-
 function cargarLogin(){
     $("#login #mensaje").html(""); //vacio div mensaje
     //vacio inputs
@@ -73,7 +95,6 @@ function cargarLogin(){
     $("#login input[type='password']").val(""); 
     $.mobile.navigate('#login', {transition: 'pop'});
 }
-
 function cargarSignup(){
     $("#signup #mensaje").html(""); //vacio div mensaje
     //vacio inputs
@@ -109,7 +130,7 @@ function cargarPaginaListadoCanchas(efectoTransicion){
                         }
                     }
                     if(efectoTransicion == "left"){
-                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:''}));
+                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:'reverse'}));
                     } else {
                         lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: efectoTransicion}));
                     }
@@ -289,6 +310,15 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
                     );
                     $('#jugar').button();
                 }
+                ////////////////FOTOOOOOO
+                selectFoto(idUsuario, retorno.partido.id);
+                if(foto != null){ //PENDIENTE: cambiar por si encuentra la foto en el localstorage 
+                    $('#partidoFotoCollapsible #foto').html('<img src='+foto+'>');
+                } else {
+                    deleteFoto(idUsuario, retorno.partido.id);
+                    $('#partidoFotoCollapsible #foto').html('<a href="#" data-role="button" onclick="sacarFoto('+retorno.partido.id+')">Sacar Foto</a>');
+                }
+                //////////JUGADORES
                 var listaJugadores = $('#detallePartido #listaJugadores').listview().empty();
                 var jugadoresPartido = retorno.partido.jugadores;
                 var largo =  jugadoresPartido.length;
@@ -398,5 +428,52 @@ function inscribirsePartido(usuario, partido){
         error:function(err){
             $('#nuevoPartido #mensaje').html("<p>"+ $.parseJSON(err.responseText) +"</p>");
         }
+    });
+}
+
+
+
+
+//funcion sacar foto que devuelve la ruta
+function sacarFoto(idPart){
+    navigator.camera.getPicture(onSuccess, onFail, { 
+        quality: 50,
+        destinationType: Camera.DestinationType.FILE_URI 
+    });
+}
+function onSuccess(imageURI) {
+    insertFoto(idUsuario, idPart, imageURI);
+    $('#partidoFotoCollapsible #foto').html('<img src='+imageURI+'>');
+}
+function onFail(message) {
+    console.log('Failed because: ' + message);
+}
+//se guarda la foto en SQLlite
+function insertFoto(usu, part, nomFoto){
+    db.transaction(function(tx){
+        tx.executeSql("INSERT INTO fotos(usuario,partido,foto) VALUES (?,?,?)",[usu, part, nomFoto]);
+    });
+}
+var foto;
+//se consulta SQLlite para ver si existe la foto si esta en la base local, si no se borra de la bd
+function selectFoto(usu, part){
+    db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5);
+    db.transaction(function (tx) {
+        tx.executeSql("SELECT fotos FROM fotos WHERE usuario=? AND partido=?",[usu,part],
+        function(tx,result){
+            f = result.rows.item(0).foto;
+            if("found path"){
+                foto = 'path';
+            } else {
+                foto = null;
+            }
+        }, function (error) {
+            foto = null;
+        });
+    });
+}
+function deleteFoto(usu, part){
+    db.transaction(function(tx){
+        tx.executeSql("DELETE FROM fotos WHERE usuario=? and partido=?",[usu, part]);
     });
 }
