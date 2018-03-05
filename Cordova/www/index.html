@@ -56,7 +56,7 @@
                 <h2>Futbol 5</h2>
             </div>
             <div data-role='content'>
-                <form id='iniciar sesion'>
+                <form id='inicioSesiom'>
                     <div class='ui-hide-label ui-field-contain no-field-separator'>
                         <label for='usuario'>Usuario:</label>
                         <input type='text' name='usuario' id='usuario' placeholder='Usuario'/>
@@ -82,7 +82,7 @@
                 <h2>Futbol 5</h2>
             </div>
             <div data-role='content'>
-                <form id='iniciar sesion'>
+                <form id='nuevoUsuario'>
                     <div class='ui-hide-label ui-field-contain no-field-separator'>
                         <label for='usuario'>Usuario:</label>
                         <input type='text' name='usuario' id='usuario' placeholder='Usuario'/>
@@ -111,11 +111,20 @@
             <div data-role='header' data-theme="b"  data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
-                <a href='#cerrarSesion' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+                <a href='#popupLogout' data-role='button' data-rel="popup" data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Salir</a>
+            </div>
+            <div data-role="popup" id='popupLogout' class='ui-content'>
+                <div class='ui-field-contain no-field-separator' >
+                    <label for='si'>Desea cerrar la sesion?</label>
+                    <input type='button' id='si' name='si' value="Si" onclick="hacerLogout()"/>
+                </div>
             </div>
             <div data-role='content'>
                 <ul id='canchas' data-role="listview" data-split-icon='star'>
                 </ul>
+                <div data-role="popup" id='popupLogout'>
+                    <p>Desea cerrar la sesion?</p><a href='#' data-role="button" onclick="hacerLogout()">Si</a>>
+                </div>
             </div>
             <div data-id="myfooter" data-role='footer' data-position='fixed' data-theme="b">
                 <div data-role='navbar'>
@@ -133,7 +142,13 @@
             <div data-role='header' data-theme="b"  data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
-                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+                <a href='#popupLogout' data-role='button' data-rel="popup" data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Salir</a>
+            </div>
+            <div data-role="popup" id='popupLogout' class='ui-content'>
+                <div class='ui-field-contain no-field-separator' >
+                    <label for='si'>Desea cerrar la sesion?</label>
+                    <input type='button' id='si' name='si' value="Si" onclick="hacerLogout()"/>
+                </div>
             </div>
             <div data-role='content'>
                 <ul id='canchasfavoritas' data-role="listview" data-split-icon='star'>
@@ -156,7 +171,13 @@
             <div data-role='header' data-theme="b" data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
-                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+                <a href='#popupLogout' data-role='button' data-rel="popup" data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Salir</a>
+            </div>
+            <div data-role="popup" id='popupLogout' class='ui-content'>
+                <div class='ui-field-contain no-field-separator' >
+                    <label for='si'>Desea cerrar la sesion?</label>
+                    <input type='button' id='si' name='si' value="Si" onclick="hacerLogout()"/>
+                </div>
             </div>
             <div data-role='content' id='divInfoCancha'>
                 <div id='fotosCancha' class="ui-grid-b">
@@ -212,7 +233,13 @@
             <div data-role='header' data-theme="b" data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
-                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+                <a href='#popupLogout' data-role='button' data-rel="popup" data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Salir</a>
+            </div>
+            <div data-role="popup" id='popupLogout' class='ui-content'>
+                <div class='ui-field-contain no-field-separator' >
+                    <label for='si'>Desea cerrar la sesion?</label>
+                    <input type='button' id='si' name='si' value="Si" onclick="hacerLogout()"/>
+                </div>
             </div>
             <div data-role='content' > 
                     <div id='partidoInfoCollapsible' data-role="collapsible" data-inset="false" data-collapsed="false">
@@ -242,7 +269,13 @@
             <div data-role='header' data-theme="b" data-position='fixed'>
                 <a href='#' data-role='button' data-rel='back' data-icon='arrow-l' data-iconpos='notext' >Atras</a>
                 <h2>Futbol 5</h2>
-                <a href='#cerrarSesion' data-rel='dialog' data-role='button' data-icon='delete' data-iconpos='notext' class='ui-btn-right' onclick='hacerLogout()'>Salir</a>
+                <a href='#popupLogout' data-role='button' data-rel="popup" data-icon='delete' data-iconpos='notext' class='ui-btn-right'>Salir</a>
+            </div>
+            <div data-role="popup" id='popupLogout' class='ui-content'>
+                <div class='ui-field-contain no-field-separator' >
+                    <label for='si'>Desea cerrar la sesion?</label>
+                    <input type='button' id='si' name='si' value="Si" onclick="hacerLogout()"/>
+                </div>
             </div>
             <div data-role='content'>
                 <div data-role='content'>
