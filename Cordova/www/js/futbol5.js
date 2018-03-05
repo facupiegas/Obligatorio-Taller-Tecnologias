@@ -8,7 +8,38 @@ $(document).ready(function(){
     });
 });
 
-//////////////////////////////////////////////////////// login & Signup, Logout ////////////////////////////////////////////////////////
+//Slides YURI
+$('#listadoCanchas').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detallePartido').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#listadoFavoritos').live('swipeleft', function(){
+    cargarPaginaNuevoPartido('slide');
+});
+$('#listadoFavoritos').live('swiperight', function(){
+    cargarPaginaListadoCanchas('left');
+});
+$('#nuevoPartido').live('swiperight', function(){
+    cargarPaginaFavoritos('left');
+});
+
+// if(efectoTransicion == "left"){
+//     lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:'reverse'}));
+// } else {
+//     lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: efectoTransicion}));
+// }
+//
+
+
+//////////////////////////////////////////////////////// login & Signup, Logout //////////////////////////////////////////
 var idUsuario = -1;
 function hacerLogin(){
     var usuario = $('#login #usuario').val();
@@ -65,7 +96,6 @@ function hacerLogout(){
     idUsuario = -1;
     cargarLogin();
 }
-
 function cargarLogin(){
     $("#login #mensaje").html(""); //vacio div mensaje
     //vacio inputs
@@ -73,7 +103,6 @@ function cargarLogin(){
     $("#login input[type='password']").val(""); 
     $.mobile.navigate('#login', {transition: 'pop'});
 }
-
 function cargarSignup(){
     $("#signup #mensaje").html(""); //vacio div mensaje
     //vacio inputs
@@ -199,7 +228,7 @@ function ajaxTraerPartidos(pNombCancha){
     });
 }
 
-////////////////////////////////////////////////////////// Favoritos ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////// Favoritos /////////////////////////////////////////////////////
 function cargarPaginaFavoritos(efectoTransicion){
     if(idUsuario != -1){
         var favs = $("#listadoFavoritos #canchasfavoritas").listview();
@@ -271,7 +300,7 @@ function deleteFavorito(usu, cha){
     });
 }
 
-////////////////////////////////////////////////////////// Detalle Partido ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////// Detalle Partido ///////////////////////////////////////////////
 function cargarPaginaDetallePartido(partido, efectoTransicion){
     $.ajax({
         type: "GET",
@@ -315,7 +344,7 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
     });
 }
 
-////////////////////////////////////////////////////////// Crear partido ////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////// Crear partido /////////////////////////////////////////////////
 function cargarPaginaNuevoPartido(idCancha){
         $.ajax({
             type: "GET",
