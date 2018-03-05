@@ -110,7 +110,7 @@ function cargarPaginaListadoCanchas(efectoTransicion){
                         }
                     }
                     if(efectoTransicion == "left"){
-                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:''}));
+                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:'reverse'}));
                     } else {
                         lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: efectoTransicion}));
                     }
