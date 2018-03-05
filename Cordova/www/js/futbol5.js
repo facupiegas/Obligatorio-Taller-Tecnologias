@@ -10,7 +10,27 @@ $(document).ready(function(){
         tx.executeSql("CREATE TABLE IF NOT EXISTS fotos (usuario INTEGER, partido INTEGER, foto TEXT)");
     });
 });
-
+$('#listadoCanchas').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detallePartido').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#listadoFavoritos').live('swipeleft', function(){
+    cargarPaginaNuevoPartido('slide');
+});
+$('#listadoFavoritos').live('swiperight', function(){
+    cargarPaginaListadoCanchas('left');
+});
+$('#nuevoPartido').live('swiperight', function(){
+    cargarPaginaFavoritos('left');
+});
 //////////////////////////////////////////////////////// login & Signup, Logout ////////////////////////////////////////////////////////
 var idUsuario = -1;
 function hacerLogin(){
