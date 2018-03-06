@@ -5,7 +5,7 @@
       "projectTypeName": "com.intel.xdk.projecttype.jsapp",
       "src": "jsapp/template-blank-cordova-ad-project/sample.zip",
       "projectGuid": "3955d63f-cdcd-4502-a74a-51c2876e175a",
-      "lastModifiedDate": 1520288883541,
+      "lastModifiedDate": 1520343668560,
       "creationDate": 1520189950389
     },
     "sourceDirectory": "www",
@@ -130,7 +130,7 @@
         "selectedState": "Included",
         "checksum": "61c62eb",
         "dependsOn": [],
-        "topLevel": false,
+        "topLevel": true,
         "permissions": {},
         "description": "Cordova Compatibility Plugin",
         "data": {},
