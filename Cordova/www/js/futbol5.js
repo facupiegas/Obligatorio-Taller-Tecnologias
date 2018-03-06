@@ -1,5 +1,8 @@
 var favoritos = [];
 var db;
+var idUsuario = -1;
+var partidoActual = -1;
+var foto = null;
 
 $(document).ready(function(){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5);
@@ -32,7 +35,7 @@ $('#nuevoPartido').live('swiperight', function(){
     cargarPaginaFavoritos('left');
 });
 //////////////////////////////////////////////////////// login & Signup, Logout ////////////////////////////////////////////////////////
-var idUsuario = -1;
+
 function hacerLogin(){
     var usuario = $('#login #usuario').val();
     var pass = $('#login #clave').val();
@@ -145,7 +148,7 @@ function cargarPaginaListadoCanchas(efectoTransicion){
         $.mobile.navigate('#login');
     }
 }
-function cargarDetalleCancha(cancha, efectoTransicion){
+function cargarDetalleCancha(cancha, efectoTransicion, filtro){
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -154,7 +157,6 @@ function cargarDetalleCancha(cancha, efectoTransicion){
             $('#divInfoCancha h3 span').html(retorno.cancha.nombre);
             $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'","slide")');
           
-            //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
             $('#fotosCancha .ui-block-a ').html(
                 "<a href='#foto1Popup' data-rel='popup' data-position-to='window' data-transition='fade'>" + "<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'></a>"
             );
@@ -179,7 +181,7 @@ function cargarDetalleCancha(cancha, efectoTransicion){
                 position: new google.maps.LatLng(plat, plong),
                 map: gMap,
             });
-            ajaxTraerPartidos(retorno.cancha.nombre);//cargo los partidos de ka cancha en la lista
+            ajaxTraerPartidos(retorno.cancha.nombre, filtro);//cargo los partidos de ka cancha en la lista
             $.mobile.navigate('#detalleCancha',{transition: efectoTransicion}); 
         },
         error:function(retorno){
@@ -197,7 +199,7 @@ function initMap() {
         map: map
     });
 }
-function ajaxTraerPartidos(pNombCancha){
+function ajaxTraerPartidos(pNombCancha, filtro){
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -208,9 +210,16 @@ function ajaxTraerPartidos(pNombCancha){
                 listaPartidos.empty();
                 var largo = retorno.partidos.length;
                 var i;
-                for(i=0; i<largo; i++){               
+				if(filtro){
+                	for(i=0; i<largo; i++){ 
+						if(retorno.partidos[i].cantidad_jugadores < 10)
                         listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+",&quot;pop&quot;)'>" + retorno.partidos[i].nombre + "<a/></li>");              
-                }
+                	}
+				} else {
+					for(i=0; i<largo; i++){               
+                        listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+",&quot;pop&quot;)'>" + retorno.partidos[i].nombre + "<a/></li>");              
+                	}
+				}
                 listaPartidos.listview('refresh');
             }  
         },
@@ -300,10 +309,12 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
         url: "http://quierojugar.tribus.com.uy/getPartido?idPartido="+partido,
         success: function(retorno){
             if(retorno.retorno == 'OK'){
+                partidoActual = retorno.partido.id;
                 if(retorno.partido.cantidad_jugadores == 10) {
                     $('#detallePartido #info').html(
                         "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>" + "<p><b>Cancha:</b> " + retorno.partido.cancha + "</p>" + "<p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>"
                         );
+                    $('#detallePartido #info').attr('data-partido',retorno.partido.id);
                 } else {
                     $('#detallePartido #info').html(
                         "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>" + "<p><b>Cancha:</b> " + retorno.partido.cancha + "</p>" + "<p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>" + "<input type='button' id='jugar' value='Jugar' data-role='button' data-partido='"+retorno.partido.id+"' onclick='inscribirsePartido("+idUsuario+",$(this).data(&quot;partido&quot;)), cargarPaginaDetallePartido($(this).data(&quot;partido&quot;),&quot;pop&quot;)'>"
@@ -312,11 +323,12 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
                 }
                 ////////////////FOTOOOOOO
                 selectFoto(idUsuario, retorno.partido.id);
-                if(foto != null){ //PENDIENTE: cambiar por si encuentra la foto en el localstorage 
-                    $('#partidoFotoCollapsible #foto').html('<img src='+foto+'>');
+                if(foto !== null){ //PENDIENTE: cambiar por si encuentra la foto en el localstorage 
+                    $('#partidoFotoCollapsible #foto').html('<img src="data:image/jpeg;base64,'+foto+'" style="max-height: 100px; margin: 4px, auto, 4px, auto"/>');
                 } else {
                     deleteFoto(idUsuario, retorno.partido.id);
                     $('#partidoFotoCollapsible #foto').html('<a href="#" data-role="button" onclick="sacarFoto('+retorno.partido.id+')">Sacar Foto</a>');
+                    $('#partidoFotoCollapsible #foto a').button();
                 }
                 //////////JUGADORES
                 var listaJugadores = $('#detallePartido #listaJugadores').listview().empty();
@@ -431,19 +443,19 @@ function inscribirsePartido(usuario, partido){
     });
 }
 
-
-
-
 //funcion sacar foto que devuelve la ruta
 function sacarFoto(idPart){
     navigator.camera.getPicture(onSuccess, onFail, { 
-        quality: 50,
-        destinationType: Camera.DestinationType.FILE_URI 
+			quality: 50,
+			sourceType:Camera.PictureSourceType.CAMERA,
+			destinationType: Camera.DestinationType.DATA_URL 
     });
 }
 function onSuccess(imageURI) {
-    insertFoto(idUsuario, idPart, imageURI);
-    $('#partidoFotoCollapsible #foto').html('<img src='+imageURI+'>');
+    
+    insertFoto(idUsuario, partidoActual, imageURI);
+    $('#partidoFotoCollapsible #foto').html('<img src="data:image/jpeg;base64,'+ imageURI +'" style="max-height: 100px; margin: 4px, auto, 4px, auto"/>');
+    foto = imageURI;
 }
 function onFail(message) {
     console.log('Failed because: ' + message);
@@ -451,19 +463,18 @@ function onFail(message) {
 //se guarda la foto en SQLlite
 function insertFoto(usu, part, nomFoto){
     db.transaction(function(tx){
-        tx.executeSql("INSERT INTO fotos(usuario,partido,foto) VALUES (?,?,?)",[usu, part, nomFoto]);
+        tx.executeSql("INSERT INTO fotos(usuario,partido,foto) VALUES (?,?,?)",[usu, part, nomFoto],function(result){
+            
+        });
     });
 }
-var foto;
-//se consulta SQLlite para ver si existe la foto si esta en la base local, si no se borra de la bd
+
 function selectFoto(usu, part){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5);
     db.transaction(function (tx) {
-        tx.executeSql("SELECT fotos FROM fotos WHERE usuario=? AND partido=?",[usu,part],
-        function(tx,result){
-            f = result.rows.item(0).foto;
-            if("found path"){
-                foto = 'path';
+        tx.executeSql("SELECT foto FROM fotos WHERE usuario=? AND partido=?",[usu,part],function(tx,result){
+            if(result.rows.length > 0){
+                foto = result.rows.item[0].foto;
             } else {
                 foto = null;
             }
