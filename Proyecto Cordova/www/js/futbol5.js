@@ -81,17 +81,6 @@ function hacerLogin(){
         $('#login #mensaje').html("<p>Ingrese usuario y clave</p>");
     }
 }
-function initMap() {
-    var uluru = {lat: -5, lng: -5};
-    var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 15,
-        center: uluru
-    });
-    var marker = new google.maps.Marker({
-        position: uluru,
-        map: map
-    });
-}
 function hacerSignup(){
     var usuario = $('#signup #usuario').val();
     var pass = $('#signup #clave').val();
@@ -165,7 +154,6 @@ function cargarPaginaListadoCanchas(efectoTransicion){
                     } else {
                         lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: efectoTransicion}));
                     }
-                    
                 });
             },
             error:function(retorno){
@@ -182,9 +170,10 @@ function cargarDetalleCancha(cancha, efectoTransicion, filtro){
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
+            //Titulo
             $('#divInfoCancha h3 span').html(retorno.cancha.nombre);
             $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'","slide")');
-          
+            //Fotos
             $('#fotosCancha .ui-block-a ').html(
                 "<a href='#foto1Popup' data-rel='popup' data-position-to='window' data-transition='fade'>" + "<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'></a>"
             );
@@ -197,24 +186,41 @@ function cargarDetalleCancha(cancha, efectoTransicion, filtro){
             $("#foto1Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[0]);
             $("#foto2Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[1]);
             $("#foto3Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[2]);
-          
+            //Datos Generales
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
+            //Mapa
             var plat = retorno.cancha.ubicacion.latitud;
             var plong = retorno.cancha.ubicacion.longitud;
             gMap = new google.maps.Map(document.getElementById('map')); 
-            gMap.setZoom(14); // zoom mapa
+            gMap.setZoom(14);
             gMap.setCenter(new google.maps.LatLng(plat, plong));
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(plat, plong),
                 map: gMap,
             });
-            ajaxTraerPartidos(retorno.cancha.nombre, filtro);//cargo los partidos de ka cancha en la lista
-            $.mobile.navigate('#detalleCancha',{transition: efectoTransicion}); 
+            //Partidos (filtro == true saca los partidos con 10)
+            ajaxTraerPartidos(retorno.cancha.nombre, filtro);
+            if(efectoTransicion == "left"){
+                $.mobile.navigate('#detalleCancha',{transition: 'slide', direction:'reverse'});
+            } else {
+                $.mobile.navigate('#detalleCancha',{transition: efectoTransicion}); 
+            }
         },
         error:function(retorno){
         }
     });  
+}
+function initMap() {
+    var uluru = {lat: -5, lng: -5};
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 15,
+        center: uluru
+    });
+    var marker = new google.maps.Marker({
+        position: uluru,
+        map: map
+    });
 }
 function ajaxTraerPartidos(pNombCancha, filtro){
     $.ajax({
@@ -242,7 +248,7 @@ function ajaxTraerPartidos(pNombCancha, filtro){
             }  
         },
         error: function(err){
-            //$('#detalleCancha #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
+            $('#detalleCancha #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>");
         }
     });
 }
@@ -256,7 +262,7 @@ function cargarPaginaFavoritos(efectoTransicion){
         var i;
         for(i=0; i<largo; i++){
             favs.append(
-                "<li><a href='#detalleCancha' id='" + favoritos[i] + "' onclick='cargarDetalleCancha(" + favoritos[i] + ",'pop')'>" + favoritos[i] + "</a>" + "<a data-cancha='"+favoritos[i]+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
+                "<li><a href='#detalleCancha' id='" + favoritos[i] + "' onclick='cargarDetalleCancha(" + favoritos[i] + ",'pop')'>" + favoritos[i] + "</a><a data-cancha='"+favoritos[i]+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
             );
         }
         if(efectoTransicion == "left"){
@@ -327,28 +333,29 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
         url: "http://quierojugar.tribus.com.uy/getPartido?idPartido="+partido,
         success: function(retorno){
             if(retorno.retorno == 'OK'){
+                //Info general
                 partidoActual = retorno.partido.id;
                 if(retorno.partido.cantidad_jugadores == 10) {
                     $('#detallePartido #info').html(
-                        "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>" + "<p><b>Cancha:</b> " + retorno.partido.cancha + "</p>" + "<p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>"
+                        "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p><p><b>Cancha:</b> " + retorno.partido.cancha + "</p><p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>"
                         );
                     $('#detallePartido #info').attr('data-partido',retorno.partido.id);
                 } else {
                     $('#detallePartido #info').html(
-                        "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>" + "<p><b>Cancha:</b> " + retorno.partido.cancha + "</p>" + "<p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p>" + "<input type='button' id='jugar' value='Jugar' data-role='button' data-partido='"+retorno.partido.id+"' onclick='inscribirsePartido("+idUsuario+",$(this).data(&quot;partido&quot;)), cargarPaginaDetallePartido($(this).data(&quot;partido&quot;),&quot;pop&quot;)'>"
+                        "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p><p><b>Cancha:</b> " + retorno.partido.cancha + "</p><p><b>Jugadores:</b> " + retorno.partido.cantidad_jugadores + "</p><input type='button' id='jugar' value='Jugar' data-role='button' data-partido='"+retorno.partido.id+"' onclick='inscribirsePartido("+idUsuario+",$(this).data(&quot;partido&quot;)), cargarPaginaDetallePartido($(this).data(&quot;partido&quot;),&quot;pop&quot;)'>"
                     );
                     $('#jugar').button();
                 }
-                ////////////////FOTOOOOOO
+                //FOTO
                 selectFoto(idUsuario, retorno.partido.id);
-                if(foto !== null){ //PENDIENTE: cambiar por si encuentra la foto en el localstorage 
+                if(foto !== null){
                     $('#partidoFotoCollapsible #foto').html('<img src="data:image/jpeg;base64,'+foto+'" style="max-height: 100px; margin: 4px, auto, 4px, auto"/>');
                 } else {
                     deleteFoto(idUsuario, retorno.partido.id);
                     $('#partidoFotoCollapsible #foto').html('<a href="#" data-role="button" onclick="sacarFoto('+retorno.partido.id+')">Sacar Foto</a>');
                     $('#partidoFotoCollapsible #foto a').button();
                 }
-                //////////JUGADORES
+                //JUGADORES
                 var listaJugadores = $('#detallePartido #listaJugadores').listview().empty();
                 var jugadoresPartido = retorno.partido.jugadores;
                 var largo =  jugadoresPartido.length;

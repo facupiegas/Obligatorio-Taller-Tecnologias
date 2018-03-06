@@ -1,5 +1,10 @@
+/* Futbol 5
+ * Created by ayurisich and fpiegas
+ * copyright 2018
+ */
 var favoritos = [];
 var db;
+var idUsuario = -1;
 
 $(document).ready(function(){
     db = window.openDatabase("favoritos", "1.0", "favoritos", 1024*1024*5);
@@ -8,8 +13,30 @@ $(document).ready(function(){
     });
 });
 
+//////////////////////////////////////////////////////// SWIPE ////////////////////////////////////////////////////////
+$('#listadoCanchas').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detallePartido').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#detalleCancha').live('swipeleft', function(){
+    cargarPaginaFavoritos('slide');
+});
+$('#listadoFavoritos').live('swipeleft', function(){
+    cargarPaginaNuevoPartido('slide');
+});
+$('#listadoFavoritos').live('swiperight', function(){
+    cargarPaginaListadoCanchas('left');
+});
+$('#nuevoPartido').live('swiperight', function(){
+    cargarPaginaFavoritos('left');
+});
+
 //////////////////////////////////////////////////////// login & Signup, Logout ////////////////////////////////////////////////////////
-var idUsuario = -1;
 function hacerLogin(){
     var usuario = $('#login #usuario').val();
     var pass = $('#login #clave').val();
@@ -22,6 +49,8 @@ function hacerLogin(){
             success: function(retorno){
                 if(retorno.id_usuario != -1) {
                     idUsuario = retorno.id_usuario;
+                    var mp3 = document.getElementById("#champions");
+                    mp3.play();
                     cargarPaginaListadoCanchas('slideup');
                 } 
                 else {
@@ -65,7 +94,6 @@ function hacerLogout(){
     idUsuario = -1;
     cargarLogin();
 }
-
 function cargarLogin(){
     $("#login #mensaje").html(""); //vacio div mensaje
     //vacio inputs
@@ -73,7 +101,6 @@ function cargarLogin(){
     $("#login input[type='password']").val(""); 
     $.mobile.navigate('#login', {transition: 'pop', reverse:'true'});
 }
-
 function cargarSignup(){
     $("#signup #mensaje").html(""); //vacio div mensaje
     //vacio inputs
@@ -100,22 +127,19 @@ function cargarPaginaListadoCanchas(efectoTransicion){
                     for(i=0; i<largo; i++){
                         if(favoritos.indexOf(retorno.canchas[i].nombre) > -1){
                             lista.append(
-                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;, &quot;pop&quot;)'>" + retorno.canchas[i].nombre + "</a>"
-                                + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this))'></a></li>"
+                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;, &quot;pop&quot;)'>" + retorno.canchas[i].nombre + "</a>" + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this))'></a></li>"
                             );
                         } else {
                             lista.append(
-                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;,&quot;pop&quot;)'>" + retorno.canchas[i].nombre + "</a>"
-                                + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' class='ui-icon-star' onclick='guardarCanchaFavorita($(this))'></a></li>"
+                                "<li><a href='#' onclick='cargarDetalleCancha(&quot;"+retorno.canchas[i].nombre+"&quot;,&quot;pop&quot;)'>" + retorno.canchas[i].nombre + "</a>" + "<a data-cancha='"+retorno.canchas[i].nombre+"' href='#' class='ui-icon-star' onclick='guardarCanchaFavorita($(this))'></a></li>"
                             );
                         }
                     }
                     if(efectoTransicion == "left"){
-                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:''}));
+                        lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: 'slide', direction:'reverse'}));
                     } else {
                         lista.listview('refresh',$.mobile.navigate('#listadoCanchas',{transition: efectoTransicion}));
                     }
-                    
                 });
             },
             error:function(retorno){
@@ -132,43 +156,46 @@ function cargarDetalleCancha(cancha, efectoTransicion){
         dataType: "json",
         url: "http://quierojugar.tribus.com.uy/getCancha?nombre=" + cancha,
         success: function(retorno){
+            //Titulo
             $('#divInfoCancha h2').html(retorno.cancha.nombre);
             $('#nuevoPartidoCancha').attr('onclick','cargarPaginaNuevoPartido("'+retorno.cancha.nombre+'","slide")');
-          
-            //ARREGLAR EN CLASE TEMA RESIZE FOTOS, REDONDEO BORDES !!!!!!!!!!!!!!!!!!!!!!!!!
+            //Fotos
             $('#fotosCancha .ui-block-a ').html(
-                "<a href='#foto1Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
-                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'></a>"
+                "<a href='#foto1Popup' data-rel='popup' data-position-to='window' data-transition='fade'><img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[0] + "'></a>"
             );
             $('#fotosCancha .ui-block-b ').html(
-                "<a href='#foto2Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
-                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'></a>"
+                "<a href='#foto2Popup' data-rel='popup' data-position-to='window' data-transition='fade'><img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[1] + "'></a>"
             );
             $('#fotosCancha .ui-block-c ').html(
-                "<a href='#foto3Popup' data-rel='popup' data-position-to='window' data-transition='fade'>"
-                +"<img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'></a>"
+                "<a href='#foto3Popup' data-rel='popup' data-position-to='window' data-transition='fade'><img src='http://quierojugar.tribus.com.uy/canchas/" + retorno.cancha.fotos[2] + "'></a>"
             );
             $("#foto1Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[0]);
             $("#foto2Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[1]);
             $("#foto3Popup img").attr('src','http://quierojugar.tribus.com.uy/canchas/' + retorno.cancha.fotos[2]);
-          
+            //Datos Generales
             $('#infoDireccion').html(retorno.cancha.direccion);
             $('#infoTel').html(retorno.cancha.telefono);
+            //Mapa
             var plat = retorno.cancha.ubicacion.latitud;
             var plong = retorno.cancha.ubicacion.longitud;
             gMap = new google.maps.Map(document.getElementById('map')); 
-            gMap.setZoom(14); // zoom mapa
+            gMap.setZoom(14); 
             gMap.setCenter(new google.maps.LatLng(plat, plong));
             var marker = new google.maps.Marker({
                 position: new google.maps.LatLng(plat, plong),
                 map: gMap,
             });
+            //Partidos (filtro == true saca los partidos con 10)
             ajaxTraerPartidos(retorno.cancha.nombre);//cargo los partidos de ka cancha en la lista
-            $.mobile.navigate('#detalleCancha',{transition: efectoTransicion}); 
+            if(efectoTransicion == "left"){
+                $.mobile.navigate('#detalleCancha',{transition: 'slide', direction:'reverse'});
+            } else {
+                $.mobile.navigate('#detalleCancha',{transition: efectoTransicion}); 
+            }
         },
         error:function(retorno){
         }
-    })  
+    });
 }
 function initMap() {
     var uluru = {lat: -5, lng: -5};
@@ -181,7 +208,7 @@ function initMap() {
         map: map
     });
 }
-function ajaxTraerPartidos(pNombCancha){
+function ajaxTraerPartidos(pNombCancha, filtro){
     $.ajax({
         type: "GET",
         dataType: "json",
@@ -192,14 +219,14 @@ function ajaxTraerPartidos(pNombCancha){
                 listaPartidos.empty();
                 var largo = retorno.partidos.length;
                 var i;
-                for(i=0; i<largo; i++){               
-                        listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+",&quot;pop&quot;)'>" + retorno.partidos[i].nombre + "<a/></li>");              
-                }
+				for(i=0; i<largo; i++){               
+                    listaPartidos.append("<li> <a href='#' onclick='cargarPaginaDetallePartido("+retorno.partidos[i].id+",&quot;pop&quot;)'>" + retorno.partidos[i].nombre + "<a/></li>");              
+            	}
                 listaPartidos.listview('refresh');
             }  
         },
         error: function(err){
-            //$('#detalleCancha #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
+            $('#detalleCancha #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
         }
     });
 }
@@ -213,8 +240,7 @@ function cargarPaginaFavoritos(efectoTransicion){
         var i;
         for(i=0; i<largo; i++){
             favs.append(
-                "<li><a href='#detalleCancha' id='" + favoritos[i] + "' onclick='cargarDetalleCancha(" + favoritos[i] + ",'pop')'>" + favoritos[i] + "</a>"
-                + "<a data-cancha='"+favoritos[i]+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
+                "<li><a href='#detalleCancha' id='" + favoritos[i] + "' onclick='cargarDetalleCancha(" + favoritos[i] + ",'pop')'>" + favoritos[i] + "</a><a data-cancha='"+favoritos[i]+"' href='#' class='ui-icon-staryellow' onclick='borrarCanchaFavorita($(this)),borrarDeFavoritos($(this))'></a></li>"
             );
         }
         if(efectoTransicion == "left"){
@@ -285,6 +311,7 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
         url: "http://quierojugar.tribus.com.uy/getPartido?idPartido="+partido,
         success: function(retorno){
             if(retorno.retorno = 'OK'){
+                //Info general
                 if(retorno.partido.cantidad_jugadores == 10) {
                     $('#detallePartido #info').html(
                         "<p><b>Nombre:</b> " + retorno.partido.nombre + "</p>"
@@ -300,6 +327,7 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
                     );
                     $('#jugar').button();
                 }
+                //JUGADORES
                 var listaJugadores = $('#detallePartido #listaJugadores').listview().empty();
                 var jugadoresPartido = retorno.partido.jugadores;
                 var largo =  jugadoresPartido.length;
@@ -328,34 +356,34 @@ function cargarPaginaDetallePartido(partido, efectoTransicion){
 
 ////////////////////////////////////////////////////////// Crear partido ////////////////////////////////////////////////////////
 function cargarPaginaNuevoPartido(idCancha){
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "http://quierojugar.tribus.com.uy/getCanchas",
-            success: function(retorno){
-                if(retorno.retorno = 'OK'){
-                    var select = $('#nuevoPartido #selectCancha');
-                    select.html("");
-                    var largo = retorno.canchas.length;
-                    var i;
-                    for(i=0; i<largo; i++){
-                        var nom = retorno.canchas[i].nombre;
-                        select.append("<option value='"+nom+"'>"+nom+"</option>");
-                    }
-                    if(idCancha != null){
-                        $("#nuevoPartido #selectCancha option[value='"+idCancha+"']").attr("selected","selected");
-                    }
-                    select.selectmenu().selectmenu("refresh", $.mobile.navigate('#nuevoPartido',{transition:'slide'}));
-                } else {
-                    if(retorno.retorno == 'ERROR') {
-                        $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")
-                    }
+    $.ajax({
+        type: "GET",
+        dataType: "json",
+        url: "http://quierojugar.tribus.com.uy/getCanchas",
+        success: function(retorno){
+            if(retorno.retorno = 'OK'){
+                var select = $('#nuevoPartido #selectCancha');
+                select.html("");
+                var largo = retorno.canchas.length;
+                var i;
+                for(i=0; i<largo; i++){
+                    var nom = retorno.canchas[i].nombre;
+                    select.append("<option value='"+nom+"'>"+nom+"</option>");
                 }
-            },
-            error: function(err){
-                $('#nuevoPartido #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
+                if(idCancha != null){
+                    $("#nuevoPartido #selectCancha option[value='"+idCancha+"']").attr("selected","selected");
+                }
+                select.selectmenu().selectmenu("refresh", $.mobile.navigate('#nuevoPartido',{transition:'slide'}));
+            } else {
+                if(retorno.retorno == 'ERROR') {
+                    $('#nuevoPartido #mensaje').html("<p>"+ retorno.mensaje +"</p>")
+                }
             }
-        });
+        },
+        error: function(err){
+            $('#nuevoPartido #mensaje').html("<p>"+ JSON.parse(err.responseText) +"</p>")
+        }
+    });
 }
 function crearPartido(){
     var nombreCancha = $('#selectCancha').val();
